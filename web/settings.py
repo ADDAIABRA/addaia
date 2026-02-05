@@ -26,6 +26,7 @@ ALLOWED_HOSTS = [
     "nexaradados.com.br",
     "www.nexaradados.com.br",
     "76.13.232.11",
+    "76.13.232.11:8000",
 ]
 
 
