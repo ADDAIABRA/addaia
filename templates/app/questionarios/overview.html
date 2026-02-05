@@ -1,0 +1,163 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block css_page %}
+<style>
+    .pilar-card {
+        transition: all 0.3s ease;
+        border-left: 5px solid #e4e6fc;
+    }
+    .pilar-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .pilar-card.completed {
+        border-left-color: #47c363;
+    }
+    .pilar-card.pending {
+        border-left-color: #ffa426;
+    }
+    .status-badge {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 col-md-8">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h4>Seu Progresso no Diagnóstico</h4>
+                <div class="card-header-action">
+                    {% if concluído %}
+                        <span class="badge badge-success">Concluído</span>
+                    {% else %}
+                        <span class="badge badge-warning">Em andamento</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <p>Complete os 5 pilares abaixo para gerar seu relatório estratégico detalhado.</p>
+                
+                <div class="row">
+                    {% for item in progresso %}
+                    <div class="col-12 col-md-6 mb-4">
+                        <div class="card shadow-none border pilar-card {% if item.respondido %}completed{% else %}pending{% endif %} h-100">
+                            <div class="card-body p-3">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="mb-0 text-primary">{{ item.pilar.get_pilar_display }}</h6>
+                                    {% if item.respondido %}
+                                        <span class="badge badge-success status-badge">Respondido</span>
+                                    {% else %}
+                                        <span class="badge badge-warning status-badge">Pendente</span>
+                                    {% endif %}
+                                </div>
+                                <p class="text-small text-muted mb-3">{{ item.pilar.descricao }}</p>
+                                
+                                {% if item.respondido %}
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between text-small mb-1">
+                                            <span>Maturidade: <strong>{{ item.estagio }}</strong></span>
+                                            <span>{{ item.pontuacao|floatformat:1 }}%</span>
+                                        </div>
+                                        <div class="progress" style="height: 5px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ item.pontuacao }}%" aria-valuenow="{{ item.pontuacao }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <a href="{% url 'questionarios:responder_pilar' item.pilar.id %}" class="btn btn-outline-primary btn-sm btn-block">Revisar Respostas</a>
+                                {% else %}
+                                    <div style="height: 42px;"></div> <!-- Spacer -->
+                                    <a href="{% url 'questionarios:responder_pilar' item.pilar.id %}" class="btn btn-primary btn-sm btn-block">Iniciar Questionário</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <div class="card card-info">
+            <div class="card-header">
+                <h4>Status Geral</h4>
+            </div>
+            <div class="card-body">
+                <div class="summary-item mb-4 text-center">
+                    <h2 class="font-weight-bold text-primary mb-0">{{ avaliacao.pontuacao_geral|floatformat:1 }}%</h2>
+                    <div class="text-muted">Pontuação de Maturidade</div>
+                    <div class="mt-2">
+                        <span class="badge {% if avaliacao.pontuacao_geral > 60 %}badge-success{% elif avaliacao.pontuacao_geral > 30 %}badge-warning{% else %}badge-danger{% endif %} py-2 px-3">
+                             {{ avaliacao.get_estagio_geral_display }}
+                        </span>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <ul class="list-unstyled list-unstyled-border">
+                    <li class="media">
+                        <div class="media-body">
+                            <div class="media-title">Empresa</div>
+                            <div class="text-small text-muted">{{ perfil.nome_empresa|default:"Não informado" }}</div>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-body">
+                            <div class="media-title">Iniciado em</div>
+                            <div class="text-small text-muted">{{ avaliacao.criado_em|date:"d/m/Y" }}</div>
+                        </div>
+                    </li>
+                </ul>
+
+                {% if concluido %}
+                    <a href="{% url 'relatorio:exibir_relatorio' avaliacao.id %}" class="btn btn-primary btn-lg btn-block icon-left mt-3 shadow-primary {% if not relatorio_existe %}btn-generate-report{% endif %}">
+                        <i class="fas fa-file-invoice"></i> 
+                        {% if relatorio_existe %}
+                            Ver Relatório Estratégico
+                        {% else %}
+                            Gerar Relatório Estratégico
+                        {% endif %}
+                    </a>
+                {% else %}
+                    <div class="alert alert-light border shadow-none text-small mt-3">
+                        <i class="fas fa-info-circle mr-2 text-info"></i>
+                        Ainda faltam alguns pilares para liberar seu diagnóstico completo.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); backdrop-filter: blur(5px); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
+    <div class="spinner-border text-primary mb-4" role="status" style="width: 4rem; height: 4rem;"></div>
+    <h2 class="text-primary font-weight-bold">A Inteligência Artificial está preparando seu relatório...</h2>
+    <p class="lead text-dark">Isso pode levar até <strong>3 minutos</strong> para consolidar todas as análises.</p>
+    <div class="alert alert-warning mt-3" style="max-width: 500px;">
+        <i class="fas fa-exclamation-triangle mr-2"></i> <strong>Não feche ou recarregue esta página</strong> até concluir.
+    </div>
+</div>
+{% endblock %}
+
+{% block js_page %}
+<script>
+    $(document).ready(function() {
+        $('.btn-generate-report').on('click', function(e) {
+            // Se for o botão de gerar (não o de apenas 'ver')
+            if ($(this).text().trim().includes('Gerar')) {
+                $('#loading-overlay').css('display', 'flex');
+                $('body').css('overflow', 'hidden');
+                
+                // Desabilita links e botões para evitar saída acidental por outros cliques
+                $('a, button').css('pointer-events', 'none');
+            }
+        });
+    });
+</script>
+{% endblock %}

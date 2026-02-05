@@ -1,0 +1,113 @@
+{% extends 'site/base.html' %}
+{% load static %}
+
+{% block title %}Escolha seu Plano{% endblock %}
+
+{% block content %}
+
+<div id="pricing" class="cards-2" style="padding-top: 120px; padding-bottom: 80px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="above-heading text-center">OFERTA</div>
+                <h2 class="h2-heading text-center mb-5">Desconto de 50% off para os 1.000 primeiros clientes!</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-8">
+                {% if ofertas %}
+                    {% with oferta=ofertas|first %}
+                    <!-- Card-->
+                    <div class="card position-relative">
+
+                        <!-- Badge -->
+                        <span class="badge badge-danger position-absolute"
+                              style="top: 15px; right: 15px; font-size: 0.9rem;">
+                            50% OFF
+                        </span>
+
+                        <div class="card-body text-center">
+                            <div class="card-title">{{ oferta.nome_exibicao|upper }}</div>
+
+                            <div class="d-flex align-items-end justify-content-center mb-2">
+                                <div class="price">
+                                    <span class="currency">R$</span>
+                                    <span class="value">{{ oferta.valor_reais }}</span>
+                                </div>
+                                <div class="text-muted mr-2">
+                                    <small><del>R$ 799</del></small>
+                                </div>
+                            </div>
+
+                            <div class="frequency">pagamento único</div>
+                            <div class="divider"></div>
+
+                            <ul class="list-unstyled li-space-lg text-left">
+                                <li class="media">
+                                    <i class="fas fa-check"></i>
+                                    <div class="media-body">Análise de tecnologia, dados, automações e IA</div>
+                                </li>
+                                <li class="media">
+                                    <i class="fas fa-check"></i>
+                                    <div class="media-body">Diagnóstico Estratégico Completo</div>
+                                </li>
+                                <li class="media">
+                                    <i class="fas fa-check"></i>
+                                    <div class="media-body">Sugestões de Projetos para Implementação</div>
+                                </li>
+                                <li class="media">
+                                    <i class="fas fa-check"></i>
+                                    <div class="media-body">Priorização personalizada de iniciativas</div>
+                                </li>
+                                <li class="media">
+                                    <i class="fas fa-check"></i>
+                                    <div class="media-body">Redução de risco antes de investir</div>
+                                </li>
+                                <li class="media">
+                                    <i class="fas fa-check"></i>
+                                    <div class="media-body">Suporte humano por WhatsApp</div>
+                                </li>
+                            </ul>
+
+                            <div class="button-wrapper mt-4">
+                                {% if user.is_authenticated %}
+                                    {% if acesso_atual and acesso_atual.nivel == oferta.slug %}
+                                        <button class="btn-outline-reg w-100" disabled style="opacity: 0.7; cursor: not-allowed;">
+                                            <i class="fas fa-check"></i> Seu Plano Atual
+                                        </button>
+                                    {% else %}
+                                        <a class="btn-outline-reg w-100" href="{% url 'confirmar_plano' oferta.id %}">
+                                            Quero validação estratégica
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <a class="btn-outline-reg w-100" href="{% url 'cadastro' %}?oferta_id={{ oferta.id }}">
+                                        Quero validação estratégica
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of card -->
+                    {% endwith %}
+                {% else %}
+                    <div class="alert alert-warning text-center">
+                        Nenhuma oferta disponível no momento.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <p class="text-muted small">
+                    <i class="fas fa-lock"></i> Pagamento 100% seguro via Stripe • Acesso vitalício • Sem mensalidades
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

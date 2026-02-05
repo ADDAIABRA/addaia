@@ -1,0 +1,163 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h4>Detalhamento: {{ projeto.nome_projeto }}</h4>
+                <div class="card-header-action">
+                    <span class="badge badge-primary">{{ projeto.area }}</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <h5>A Solução Proposta</h5>
+                        <p class="lead">{{ projeto.solucao }}</p>
+                        
+                        <hr>
+                        
+                        <h6>Descrição do Projeto</h6>
+                        <p>{{ projeto.descricao }}</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="section-title mt-0">Objetivos do Projeto</div>
+                                <p><strong>Principal:</strong> {{ projeto.objetivo_principal }}</p>
+                                <ul>
+                                    {% for obj in projeto.objetivos_secundarios %}
+                                    <li>{{ obj }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="section-title mt-0">Problema & Causa Raiz</div>
+                                <p><strong>Problema:</strong> {{ projeto.problema }}</p>
+                                <p><strong>Causa Raiz:</strong> {{ projeto.causa_raiz }}</p>
+                                <p><strong>Impacto do Problema:</strong> {{ projeto.impacto_do_problema }}</p>
+                                <p><strong>Público Impactado:</strong> {{ projeto.publico_impactado }}</p>
+                            </div>
+                        </div>
+
+                        <div class="section-title">Cronograma e Entregas</div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Fases</h6>
+                                <div class="list-group">
+                                    {% for fase in projeto.fases_projeto %}
+                                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1 text-primary">Fase {{ forloop.counter }}</h5>
+                                        </div>
+                                        <p class="mb-1">{{ fase }}</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Entregáveis</h6>
+                                <ul class="list-group list-group-flush">
+                                    {% for entrega in projeto.entregaveis %}
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success mr-2"></i> {{ entrega }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-md-4">
+                        <div class="card card-secondary shadow-none border">
+                            <div class="card-body">
+                                <h6 class="text-primary"><i class="fas fa-chart-line mr-2"></i> Impacto Esperado</h6>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><strong>Operacional:</strong> {{ projeto.impacto_operacional }}</li>
+                                    <li class="mb-2"><strong>Financeiro:</strong> {{ projeto.impacto_financeiro }}</li>
+                                    <li class="mb-2"><strong>Tempo:</strong> {{ projeto.impacto_tempo }}</li>
+                                </ul>
+                                
+                                <hr>
+                                
+                                <h6 class="text-primary"><i class="fas fa-tasks mr-2"></i> Indicadores (KPIs)</h6>
+                                <ul>
+                                    {% for kpi in projeto.indicadores_chave %}
+                                    <li>{{ kpi }}</li>
+                                    {% endfor %}
+                                </ul>
+                                
+                                <hr>
+                                
+                                <h6 class="text-danger"><i class="fas fa-exclamation-triangle mr-2"></i> Riscos</h6>
+                                <ul>
+                                    {% for risco in projeto.riscos %}
+                                    <li>{{ risco }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card card-warning shadow-sm">
+                            <div class="card-body">
+                                <h6 class="text-dark"><i class="fas fa-calendar-alt mr-2"></i> Cronograma Estimado</h6>
+                                <p class="mb-1"><strong>Mínimo:</strong> {{ projeto.prazo_minimo }} semanas</p>
+                                <p class="mb-1"><strong>Máximo:</strong> {{ projeto.prazo_maximo }} semanas</p>
+                                <p class="mb-0"><strong>Recomendado:</strong> {{ projeto.prazo_estimado }} semanas</p>
+                            </div>
+                        </div>
+
+                        <div class="card card-success shadow-sm">
+                            <div class="card-body">
+                                <h6 class="text-dark"><i class="fas fa-tag mr-2"></i> Investimento Estimado</h6>
+                                <p class="mb-1"><strong>Mínimo:</strong> R$ {{ projeto.preco_minimo }}</p>
+                                <p class="mb-1"><strong>Máximo:</strong> R$ {{ projeto.preco_maximo }}</p>
+                                <p class="mb-0"><strong>Investimento Médio:</strong> R$ {{ projeto.preco_estimado }}</p>
+                            </div>
+                        </div>
+
+                        <div class="card card-dark shadow-sm">
+                            <div class="card-body">
+                                <h6><i class="fas fa-database mr-2"></i> Dados Necessários</h6>
+                                <ul class="pl-3 mb-3">
+                                    {% for dado in projeto.dados_necessarios %}
+                                    <li class="small">{{ dado }}</li>
+                                    {% endfor %}
+                                </ul>
+                                
+                                <hr>
+                                
+                                <h6><i class="fas fa-forward mr-2"></i> Casos de Uso Futuros</h6>
+                                <ul class="pl-3 mb-0">
+                                    {% for caso in projeto.casos_uso_futuros %}
+                                    <li class="small">{{ caso }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card card-dark shadow-sm">
+                            <div class="card-body">
+                                <h6>Vantagem Competitiva</h6>
+                                <p class="mb-0">{{ projeto.vantagem_competitiva }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-whitesmoke">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'projetos' %}" class="btn btn-secondary">Voltar para Roadmap</a>
+                    <div>
+                        <a href="{% url 'exportar_projeto_detalhado_pdf' projeto.id %}" class="btn btn-primary btn-icon icon-left mr-2">
+                            <i class="fas fa-file-pdf"></i> Baixar Detalhamento (PDF)
+                        </a>
+                        <button class="btn btn-outline-primary btn-icon icon-left" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

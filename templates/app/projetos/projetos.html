@@ -1,0 +1,212 @@
+{% extends 'app/base.html' %}
+
+{% load static %}
+
+{% block css_page %}
+<style>
+    body.loading {
+        overflow: hidden !important;
+    }
+    #loading-overlay {
+        display: none;
+    }
+    body.loading #loading-overlay {
+        display: flex !important;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="section-title mt-0">Seus Projetos Estratégicos</h2>
+                <p class="section-lead">Projetos personalizados baseados na sua maturidade atual.</p>
+            </div>
+            {% if projetos %}
+            <div class="card-header-action">
+                <a href="{% url 'exportar_projetos_pdf' %}" class="btn btn-primary btn-icon icon-left">
+                    <i class="fas fa-file-pdf"></i> Baixar Roadmap Completo (PDF)
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% if projetos %}
+        {% for projeto in projetos %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card card-primary h-100 project-card" data-project-id="{{ projeto.id }}">
+                <div class="card-header d-flex justify-content-between">
+                    <h4>{{ projeto.nome_projeto }}</h4>
+                    {% if projeto.avaliacoes.exists %}
+                         <i class="fas fa-check-circle text-success" title="Avaliado"></i>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <span class="badge badge-dark mb-2">{{ projeto.area }}</span>
+                    <p>{{ projeto.descricao|truncatewords:25 }}</p>
+                    
+                    <div class="project-meta mt-3">
+                        <div class="mb-1 text-small">
+                            <i class="fas fa-bullseye text-primary mr-1"></i> 
+                            {{ projeto.objetivo_principal|truncatewords:10 }}
+                        </div>
+                        <div class="mb-1 text-small">
+                            <i class="fas fa-hourglass-half text-warning mr-1"></i> 
+                            {{ projeto.prazo_estimado }}
+                        </div>
+                        <div class="text-small">
+                            <i class="fas fa-coins text-success mr-1"></i> 
+                             R$ {{ projeto.preco_estimado }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Avaliação Section -->
+                <div class="card-body border-top pt-3 pb-2 bg-light">
+                    <p class="text-muted text-small mb-2 font-weight-bold text-center">Qual seu interesse neste projeto?</p>
+                    <div class="d-flex justify-content-center align-items-center evaluation-buttons">
+                        <button class="btn btn-sm btn-outline-success btn-eval mx-1" data-val="ALTO" title="Tenho muito interesse (Fazer Agora)">
+                            <i class="fas fa-fire"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary btn-eval mx-1" data-val="MEDIO" title="Interesse Médio (Roadmap)">
+                            <i class="fas fa-calendar-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary btn-eval mx-1" data-val="BAIXO" title="Baixo Interesse (Backlog)">
+                            <i class="fas fa-archive"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger btn-eval mx-1" data-val="DESCARTADO" title="Não tenho interesse">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="text-center mt-2 validation-msg" style="display:none; font-size: 11px;">
+                        <span class="text-success"><i class="fas fa-check"></i> Avaliação salva!</span>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center">
+                    <a href="{% url 'projeto' %}?id={{ projeto.id }}" class="btn btn-primary btn-block">Ver Detalhes Completos</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12 text-center py-5">
+            <div class="empty-state" data-height="400">
+                <div class="empty-state-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                {% if avaliacao %}
+                    <h2>Pronto para decolar?</h2>
+                    <p class="lead">
+                        Identificamos seu diagnóstico concluído. Clique no botão abaixo para gerar seus projetos estratégicos personalizados.
+                    </p>
+                    <form method="post" action="{% url 'projetos' %}" class="mt-4" id="generate-projects-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="generate_projects" value="1">
+                        <button type="submit" class="btn btn-primary btn-lg btn-icon icon-left btn-generate">
+                            <i class="fas fa-magic"></i> Gerar Meus Projetos (Apenas uma vez)
+                        </button>
+                    </form>
+                {% else %}
+                    <h2>Nenhum diagnóstico encontrado</h2>
+                    <p class="lead">
+                        Para que possamos recomendar projetos estratégicos, você precisa completar pelo menos um pilar do diagnóstico de maturidade.
+                    </p>
+                    <a href="{% url 'questionarios:overview' %}" class="btn btn-primary mt-4">Iniciar Diagnóstico</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); backdrop-filter: blur(5px); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
+    <div class="spinner-border text-primary mb-4" role="status" style="width: 4rem; height: 4rem;"></div>
+    <h2 class="text-primary font-weight-bold">A Inteligência Artificial está desenhando seu roadmap...</h2>
+    <p class="lead text-dark">Isso pode levar até <strong>3 minutos</strong> devido à complexidade da análise.</p>
+    <div class="alert alert-warning mt-3" style="max-width: 500px;">
+        <i class="fas fa-exclamation-triangle mr-2"></i> <strong>Não feche ou recarregue esta página</strong> até que o processo seja concluído.
+    </div>
+</div>
+{% endblock %}
+
+{% block js_page %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const genForm = document.getElementById('generate-projects-form');
+        if (genForm) {
+            genForm.addEventListener('submit', function(e) {
+                setTimeout(() => {
+                    document.body.classList.add('loading');
+                    document.querySelectorAll('a, button').forEach(el => {
+                        el.style.pointerEvents = 'none';
+                    });
+                }, 50);
+            });
+        }
+
+        // Logic for Evaluation Buttons
+        const evalButtons = document.querySelectorAll('.btn-eval');
+        evalButtons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const card = this.closest('.project-card');
+                const projectId = card.dataset.projectId;
+                const nivel = this.dataset.val;
+                const container = this.closest('.evaluation-buttons');
+                const msg = card.querySelector('.validation-msg');
+
+                // Visual immediate feedback
+                container.querySelectorAll('.btn-eval').forEach(b => {
+                    b.classList.remove('active', 'btn-success', 'btn-primary', 'btn-secondary', 'btn-danger');
+                    b.classList.add('btn-outline-secondary'); // fallback reset
+                    // Restore original outline classes logic if needed, but simple toggle is easier
+                    if(b.dataset.val === 'ALTO') b.classList.add('btn-outline-success');
+                    if(b.dataset.val === 'MEDIO') b.classList.add('btn-outline-primary');
+                    if(b.dataset.val === 'BAIXO') b.classList.add('btn-outline-secondary');
+                    if(b.dataset.val === 'DESCARTADO') b.classList.add('btn-outline-danger');
+                });
+
+                // Apply active style
+                this.classList.remove('btn-outline-success', 'btn-outline-primary', 'btn-outline-secondary', 'btn-outline-danger');
+                if(nivel === 'ALTO') this.classList.add('btn-success', 'active');
+                if(nivel === 'MEDIO') this.classList.add('btn-primary', 'active');
+                if(nivel === 'BAIXO') this.classList.add('btn-secondary', 'active');
+                if(nivel === 'DESCARTADO') this.classList.add('btn-danger', 'active');
+
+                // AJAX Call
+                fetch(`/avaliacoes/registrar/${projectId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ 'nivel_interesse': nivel })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'success') {
+                        msg.style.display = 'block';
+                        setTimeout(() => msg.style.display = 'none', 2000);
+                    } else {
+                        alert('Erro ao salvar: ' + data.error);
+                    }
+                })
+                .catch(err => console.error('Error:', err));
+            });
+        });
+    });
+
+    window.onbeforeunload = function() {
+        if (document.body.classList.contains('loading')) {
+            return "A geração de projetos está em andamento. Se você sair agora, o processo será interrompido.";
+        }
+    };
+</script>
+{% endblock %}

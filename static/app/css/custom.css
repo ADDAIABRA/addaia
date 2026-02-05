@@ -1,0 +1,20 @@
+/**
+ *
+ * Custom CSS for layout stability
+ * 
+ */
+
+html {
+  overflow-y: scroll; /* Forçar scrollbar sempre visível para evitar 'tremedeira' ao mudar de página */
+}
+
+body {
+  overflow-x: hidden; /* Evitar overflow horizontal que causa instabilidade */
+}
+
+/* Compensar o NiceScroll se necessário */
+.nicescroll-rails {
+  z-index: 9999 !important;
+}
+
+/*# sourceMappingURL=custom.css.map */

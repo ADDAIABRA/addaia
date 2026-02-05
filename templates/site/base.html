@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Diagnóstico Estratégico de Dados, Automação e IA para pequenas empresas. Recupere clareza e eficiência em minutos sem equipe de TI.">
+    <meta name="keywords" content="">  <!-- TODO -->
+    <meta name="author" content="Diagnóstico Digital">
+
+    <!-- OG Meta Tags -->
+	<meta property="og:site_name" content="Diagnóstico Digital" />
+	<meta property="og:title" content="Diagnóstico Estratégico de Dados e IA"/>
+	<meta property="og:description" content="Descubra onde investir em tecnologia antes de gastar milhares de reais." />
+
+    <!-- Website Title -->
+    <title>Diagnóstico Estratégico - Dados, Automação & IA</title>
+
+    <!-- Favicon  -->
+    <link rel="icon" type="image/x-icon" href="{% static 'geral/marca/favicon.ico' %}">
+
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap&subset=latin-ext" rel="stylesheet">
+    <link href="{% static 'site/css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'site/css/fontawesome-all.css' %}" rel="stylesheet">
+    <link href="{% static 'site/css/swiper.css' %}" rel="stylesheet">
+	<link href="{% static 'site/css/magnific-popup.css' %}" rel="stylesheet">
+	<link href="{% static 'site/css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'site/css/custom.css' %}" rel="stylesheet">
+</head>
+<body data-spy="scroll" data-target=".fixed-top">
+
+    <!-- Preloader -->
+    {% include 'site/componentes/preloader.html' %}
+
+    <!-- Navigation -->
+    {% include 'site/componentes/navbar.html' %}
+
+    <!-- Page Content -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+    {% include 'site/componentes/footer.html' %}
+
+    <!-- Copyright -->
+    {% include 'site/componentes/copyright.html' %}
+
+
+    <script src="{% static 'site/js/jquery.min.js' %}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
+    <script src="{% static 'site/js/popper.min.js' %}"></script> <!-- Popper tooltip library for Bootstrap -->
+    <script src="{% static 'site/js/bootstrap.min.js' %}"></script> <!-- Bootstrap framework -->
+    <script src="{% static 'site/js/jquery.easing.min.js' %}"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
+    <script src="{% static 'site/js/swiper.min.js' %}"></script> <!-- Swiper for image and text sliders -->
+    <script src="{% static 'site/js/jquery.magnific-popup.js' %}"></script> <!-- Magnific Popup for lightboxes -->
+    <script src="{% static 'site/js/validator.min.js' %}"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
+    <script src="{% static 'site/js/scripts.js' %}"></script> <!-- Custom scripts -->
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+    <div class="login-brand">
+      <img src="{% static 'app/img/stisla-fill.svg' %}" alt="logo" width="100" class="shadow-light rounded-circle">
+    </div>
+
+    <div class="card card-primary">
+      <div class="card-header"><h4>E-mail Enviado</h4></div>
+
+      <div class="card-body">
+        <div class="alert alert-info">
+          <i class="fas fa-envelope mr-2"></i>
+          <strong>Verifique seu e-mail!</strong>
+        </div>
+        
+        <p class="text-muted">
+          Enviamos instruções para redefinir sua senha para o endereço de e-mail informado.
+          Você receberá o e-mail em breve.
+        </p>
+        
+        <p class="text-muted">
+          Se você não receber o e-mail, verifique sua pasta de spam ou lixo eletrônico.
+          Certifique-se de que o endereço de e-mail informado está correto.
+        </p>
+
+        <div class="form-group mt-4">
+          <a href="{% url 'auth:logar_usuario' %}" class="btn btn-primary btn-lg btn-block">
+            Voltar para Login
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="simple-footer">
+      Copyright &copy; ADDAIABRA {% now "Y" %}
+    </div>
+  </div>
+{% endblock %}
