@@ -17,17 +17,15 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-chave-temporaria-para-desenvolvimento')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    host.strip()
-    for host in config(
-        'ALLOWED_HOSTS',
-        default='localhost,127.0.0.1,192.168.0.10'
-    ).split(',')
+    "nexaradados.com.br",
+    "www.nexaradados.com.br",
+    "76.13.232.11",
 ]
 
 
@@ -143,11 +141,11 @@ LOGOUT_REDIRECT_URL = 'pagina_inicial'
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
 STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
-DOMINIO_BASE = config('DOMINIO_BASE', default='http://localhost:8000')
+DOMINIO_BASE = config('DOMINIO_BASE')  # TODO: Após deploy trocar por domínio no pythonanywhere
 
 # Session Configuration
 SESSION_COOKIE_AGE = 86400 * 7  # 7 dias
 SESSION_SAVE_EVERY_REQUEST = True
 
 # LLM Configuration
-GROQ_API_KEY = config('GROQ_API_KEY', default='')
+GROQ_API_KEY = config('GROQ_API_KEY')
