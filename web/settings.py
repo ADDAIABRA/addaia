@@ -20,15 +20,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config("DEBUG", default=False, cast=bool)
+
+# ALLOWED_HOSTS = [
+#     "nexaradados.com.br",
+#     "www.nexaradados.com.br",
+#     "76.13.232.11",
+#     "76.13.232.11:8000",
+# ]
 
 ALLOWED_HOSTS = [
-    "nexaradados.com.br",
-    "www.nexaradados.com.br",
     "76.13.232.11",
     "76.13.232.11:8000",
 ]
-
 
 # Application definition
 INSTALLED_APPS = [
@@ -126,7 +130,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
