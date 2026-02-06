@@ -30,8 +30,8 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 # ]
 
 ALLOWED_HOSTS = [
-    # "76.13.232.11",
-    # "76.13.232.11:8000",
+    "76.13.232.11",
+    "76.13.232.11:8000",
 ]
 
 # Application definition
