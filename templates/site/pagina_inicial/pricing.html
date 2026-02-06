@@ -79,7 +79,7 @@
                         </ul>
 
                         <div class="button-wrapper">
-                            <a class="btn-outline-reg" href="{% url 'cadastro' %}?oferta_id=3">
+                            <a class="btn-outline-reg" href="{% if oferta_ouro_id %}{% url 'cadastro' %}?oferta_id={{ oferta_ouro_id }}{% else %}{% url 'planos' %}{% endif %}">
                                 Quero validação estratégica
                             </a>
                         </div>

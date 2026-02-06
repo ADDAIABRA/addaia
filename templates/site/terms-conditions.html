@@ -1,0 +1,176 @@
+{% extends 'site/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <!-- Header -->
+    <header id="header" class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Termos e Condições de Uso</h1>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header> <!-- end of ex-header -->
+    <!-- end of header -->
+
+
+    <!-- Breadcrumbs -->
+    <div class="ex-basic-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumbs">
+                        <a href="{% url 'pagina_inicial' %}">Página Inicial</a><i class="fa fa-angle-double-right"></i><span>Termos e Condições</span>
+                    </div> <!-- end of breadcrumbs -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of ex-basic-1 -->
+    <!-- end of breadcrumbs -->
+
+
+    <!-- Terms Content -->
+    <div class="ex-basic-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-container">
+                        <p class="mb-4">Última atualização: 06/02/2026</p>
+                        <p>Ao acessar e utilizar a plataforma <strong>Nexara Dados</strong>, você declara que leu, compreendeu e concorda integralmente com os termos abaixo. Caso não concorde, não utilize a plataforma.</p>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>1. Sobre a Plataforma</h3>
+                        <p>A <strong>Nexara Dados</strong> é uma plataforma digital que oferece <strong>diagnóstico estratégico</strong> sobre tecnologia, dados, automações e inteligência artificial, por meio de questionários, análises automatizadas e geração de relatórios personalizados.</p>
+                        <p>O serviço tem caráter <strong>informativo, analítico e orientativo</strong>, com o objetivo de apoiar a tomada de decisão do usuário.</p>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>2. Natureza do Serviço</h3>
+                        <p>2.1. O serviço <strong>não constitui consultoria tradicional</strong>, auditoria formal, assessoria técnica, jurídica, contábil ou financeira.</p>
+                        <p>2.2. A plataforma <strong>não executa projetos</strong>, não implementa soluções, não contrata softwares, não intermedia fornecedores nem assume responsabilidade por decisões tomadas pelo usuário.</p>
+                        <p>2.3. As recomendações apresentadas:</p>
+                        <ul class="list-unstyled li-space-lg indent">
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">são baseadas nas informações fornecidas pelo próprio usuário;</div></li>
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">utilizam modelos analíticos e inteligência artificial;</div></li>
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">devem ser interpretadas como <strong>apoio à decisão</strong>, e não como garantia de resultados.</div></li>
+                        </ul>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>3. Responsabilidade do Usuário</h3>
+                        <p>3.1. O usuário é integralmente responsável por:</p>
+                        <ul class="list-unstyled li-space-lg indent">
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">fornecer informações verdadeiras, completas e atualizadas;</div></li>
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">avaliar as recomendações à luz de sua realidade;</div></li>
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">decidir se, quando e como irá executar qualquer ação sugerida.</div></li>
+                        </ul>
+                        <p>3.2. A <strong>Nexara Dados</strong> não se responsabiliza por:</p>
+                        <ul class="list-unstyled li-space-lg indent">
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">prejuízos decorrentes de decisões tomadas com base no relatório;</div></li>
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">investimentos realizados pelo usuário;</div></li>
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">uso indevido ou interpretação incorreta das informações.</div></li>
+                        </ul>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>4. Pagamento, Acesso e Entrega</h3>
+                        <p>4.1. O acesso à plataforma é liberado após a confirmação do pagamento.</p>
+                        <p>4.2. O serviço é prestado em <strong>pagamento único</strong>, salvo indicação expressa em contrário.</p>
+                        <p>4.3. Após a finalização do preenchimento do perfil e dos questionários, o relatório é gerado e disponibilizado na própria plataforma.</p>
+                        <p>4.4. O usuário é responsável por salvar, baixar ou consultar o relatório enquanto ele estiver disponível.</p>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>5. Garantia de Clareza</h3>
+                        <p>5.1. A <strong>Nexara Dados</strong> oferece uma <strong>garantia de clareza</strong>, limitada à percepção subjetiva do usuário quanto ao entendimento do diagnóstico.</p>
+                        <p>5.2. Caso o usuário entenda que <strong>não obteve maior clareza para decidir</strong>, poderá solicitar reembolso conforme as condições informadas na página de venda.</p>
+                        <p>5.3. A garantia <strong>não cobre</strong>:</p>
+                        <ul class="list-unstyled li-space-lg indent">
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">expectativa de resultado financeiro;</div></li>
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">crescimento, redução de custos ou ganhos futuros;</div></li>
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">validação técnica de projetos específicos.</div></li>
+                        </ul>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>6. Uso de Inteligência Artificial</h3>
+                        <p>6.1. A plataforma utiliza inteligência artificial para análise de dados e geração de relatórios.</p>
+                        <p>6.2. Os resultados podem variar conforme:</p>
+                        <ul class="list-unstyled li-space-lg indent">
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">qualidade das informações fornecidas;</div></li>
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">contexto do negócio;</div></li>
+                            <li class="media"><i class="fas fa-square"></i><div class="media-body">limitações inerentes a modelos automatizados.</div></li>
+                        </ul>
+                        <p>6.3. A IA <strong>não substitui julgamento humano especializado</strong> e não deve ser utilizada como única base para decisões críticas.</p>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>7. Propriedade Intelectual</h3>
+                        <p>7.1. Todo o conteúdo da plataforma — incluindo textos, relatórios, metodologia, estrutura de diagnóstico e modelos analíticos — é protegido por direitos autorais.</p>
+                        <p>7.2. O usuário pode utilizar o relatório <strong>exclusivamente para uso interno</strong> do seu negócio.</p>
+                        <p>7.3. É vedada a reprodução, redistribuição, revenda ou uso comercial do conteúdo sem autorização expressa.</p>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>8. Proteção de Dados e LGPD</h3>
+                        <p>8.1. A <strong>Nexara Dados</strong> trata dados pessoais em conformidade com a Lei nº 13.709/2018 (Lei Geral de Proteção de Dados – LGPD).</p>
+                        <p>8.2. Os dados coletados podem incluir identificação empresarial, dados operacionais informados pelo usuário e dados de uso da plataforma.</p>
+                        <p>8.3. Os dados são utilizados para execução do serviço, geração do diagnóstico e melhoria da plataforma (de forma anonimizada).</p>
+                        <p>8.4. Não vendemos nem compartilhamos dados pessoais com terceiros, exceto para processamento de pagamentos ou obrigações legais.</p>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>9. Segurança da Informação</h3>
+                        <p>9.1. Adotamos medidas técnicas e organizacionais razoáveis para proteger os dados armazenados.</p>
+                        <p>9.2. Apesar disso, nenhum sistema é totalmente livre de riscos, e o usuário reconhece essa limitação.</p>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>10. Limitação de Responsabilidade</h3>
+                        <p>10.1. Em nenhuma hipótese a <strong>Nexara Dados</strong> será responsável por danos indiretos, lucros cessantes ou decisões estratégicas tomadas pelo usuário.</p>
+                        <p>10.2. A responsabilidade total fica limitada ao valor efetivamente pago pelo usuário pelo serviço.</p>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>11. Alterações dos Termos</h3>
+                        <p>11.1. Estes Termos podem ser atualizados periodicamente. A versão vigente estará sempre disponível na plataforma.</p>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>12. Foro e Legislação Aplicável</h3>
+                        <p>12.1. Estes Termos são regidos pelas leis da República Federativa do Brasil.</p>
+                        <p>12.2. Fica eleito o foro da comarca do domicílio da empresa responsável pela plataforma, salvo disposição legal em contrário.</p>
+                    </div>
+
+                    <div class="text-container">
+                        <h3>13. Contato</h3>
+                        <p>Em caso de dúvidas, solicitações ou questões relacionadas a estes Termos ou à LGPD, entre em contato:</p>
+                        <p>📧 <a href="mailto:contato@nexaradados.com.br">contato@nexaradados.com.br</a></p>
+                    </div>
+
+                    <a class="btn-outline-reg" href="{% url 'pagina_inicial' %}">VOLTAR</a>
+                </div> <!-- end of col-->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of ex-basic-2 -->
+    <!-- end of terms content -->
+
+
+    <!-- Breadcrumbs -->
+    <div class="ex-basic-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumbs">
+                        <a href="{% url 'pagina_inicial' %}">Página Inicial</a><i class="fa fa-angle-double-right"></i><span>Termos e Condições</span>
+                    </div> <!-- end of breadcrumbs -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of ex-basic-1 -->
+    <!-- end of breadcrumbs -->
+{% endblock %}

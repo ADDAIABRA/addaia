@@ -66,7 +66,7 @@ def logout_view(request):
 
 def inicio(request):
     """
-    Página inicial que lista os 3 planos disponíveis.
+    Página inicial que lista o plano disponível.
     """
     ofertas = Oferta.objects.filter(ativo=True).order_by('valor_centavos')
     

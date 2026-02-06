@@ -39,20 +39,6 @@ class Command(BaseCommand):
         # Buscar ou criar ofertas no banco de dados
         ofertas_config = [
             {
-                'slug': 'bronze',
-                'nome_exibicao': 'Plano Bronze',
-                'descricao': 'Acesso vitalício ao conteúdo Bronze',
-                'valor_centavos': 9900,  # R$ 99,00
-                'lookup_key': 'bronze_v1',
-            },
-            {
-                'slug': 'prata',
-                'nome_exibicao': 'Plano Prata',
-                'descricao': 'Acesso vitalício ao conteúdo Bronze e Prata',
-                'valor_centavos': 19900,  # R$ 199,00
-                'lookup_key': 'prata_v1',
-            },
-            {
                 'slug': 'ouro',
                 'nome_exibicao': 'Plano Ouro',
                 'descricao': 'Acesso vitalício completo (Bronze, Prata e Ouro)',
@@ -61,8 +47,15 @@ class Command(BaseCommand):
             },
         ]
         
+        slugs_mantidos = [c['slug'] for c in ofertas_config]
+        
         for oferta_config in ofertas_config:
             self.processar_oferta(oferta_config, options['force'])
+            
+        # Desativar planos que não estão na configuração atual
+        desativados = Oferta.objects.exclude(slug__in=slugs_mantidos).update(ativo=False)
+        if desativados:
+            self.stdout.write(self.style.WARNING(f'\n→ {desativados} planos antigos foram desativados.'))
         
         self.stdout.write(self.style.SUCCESS('\n✓ Provisionamento concluído!'))
     
