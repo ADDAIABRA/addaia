@@ -13,4 +13,3 @@ media/
 *.pem
 *.key
 .env_temp
-web/settings1.py

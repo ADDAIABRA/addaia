@@ -22,16 +22,9 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-# ALLOWED_HOSTS = [
-#     "nexaradados.com.br",
-#     "www.nexaradados.com.br",
-#     "76.13.232.11",
-#     "76.13.232.11:8000",
-# ]
-
 ALLOWED_HOSTS = [
-    "76.13.232.11",
-    "76.13.232.11:8000",
+    "nexaradados.com.br",
+    "www.nexaradados.com.br",
 ]
 
 # Application definition
@@ -51,7 +44,7 @@ INSTALLED_APPS = [
     'projetos.apps.ProjetosConfig',
     'questionarios.apps.QuestionariosConfig',
     'relatorio.apps.RelatorioConfig',
-    'avaliacoes',
+    'avaliacoes.apps.AvaliacoesConfig',
 ]
 
 MIDDLEWARE = [
