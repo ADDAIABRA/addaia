@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Cadastro &mdash; Diagnóstico IA</title>
+  <title>Cadastro &mdash; Nexara Dados</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{% static 'app/modules/bootstrap/css/bootstrap.min.css' %}">
@@ -16,6 +16,8 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
   <link rel="stylesheet" href="{% static 'app/css/components.css' %}">
+        <!-- Favicon  -->
+    <link rel="icon" type="image/x-icon" href="{% static 'geral/marca/favicon.ico' %}">
 </head>
 
 <body>
@@ -25,8 +27,8 @@
         <div class="row">
           <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
             <div class="login-brand">
-              <!-- <img src="{% static 'assets/img/stisla-fill.svg' %}" alt="logo" width="100" class="shadow-light rounded-circle"> -->
-              <h2 class="text-primary">Diagnóstico IA</h2>
+<img src="{% static 'geral/marca/logo.png' %}" alt="logo" width="100" class="shadow-light rounded-circle">
+              <h2 class="text-primary">Nexara Dados</h2>
             </div>
 
             <div class="card card-primary">
@@ -84,7 +86,7 @@
                   <div class="form-group">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" name="agree" class="custom-control-input" id="agree" required>
-                      <label class="custom-control-label" for="agree">Eu concordo com os termos e condições</label>
+                      <label class="custom-control-label" for="agree">Eu li e concordo com os <a href="{% url 'termos_condicoes' %}">termos e condições</a>.</label>
                     </div>
                   </div>
 
@@ -97,7 +99,7 @@
               </div>
             </div>
             <div class="simple-footer">
-              Copyright &copy; Diagnóstico IA 2024
+              Copyright &copy; Nexara Dados 2026
             </div>
           </div>
         </div>
