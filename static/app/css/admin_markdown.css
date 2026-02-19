@@ -1,0 +1,20 @@
+/* Admin Markdown Styling */
+#id_texto {
+  font-family:
+    "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #f8f9fa;
+  color: #212529;
+  padding: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  width: 90%;
+  min-height: 500px;
+}
+
+#id_texto:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

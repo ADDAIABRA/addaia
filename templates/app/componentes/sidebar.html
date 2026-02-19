@@ -1,0 +1,33 @@
+{% load static %}
+  <div class="main-sidebar sidebar-style-2">
+    <aside id="sidebar-wrapper">
+
+
+      <div class="sidebar-brand">
+        <a href="{% url 'apresentacao' %}">
+            Nexara Dados
+        </a>
+      </div>
+      <div class="sidebar-brand sidebar-brand-sm">
+        <a href="{% url 'apresentacao' %}">
+          <img src="{% static 'geral/marca/logo.png' %}" alt="Nexara Dados" style="height: 30px; width: auto; padding-top: 5px;">
+        </a>
+
+      </div>
+      <ul class="sidebar-menu">
+        <li class="menu-header">Geral</li>
+        <li><a class="nav-link" href="{% url 'apresentacao' %}"><i class="fas fa-fire"></i> <span>Apresentação</span></a></li>
+        <li><a class="nav-link" href="{% url 'perfil' %}"><i class="fas fa-building"></i> <span>Perfil da Empresa</span></a></li>
+        <li class="menu-header">Leads</li>
+        <li><a class="nav-link" href="{% url 'coletar_leads' %}"><i class="fas fa-search-plus"></i> <span>Coletar Leads</span></a></li>
+        <li><a class="nav-link" href="{% url 'ver_leads' %}"><i class="fas fa-list"></i> <span>Ver Leads</span></a></li>
+      </ul>
+
+      <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
+        <a href="https://wa.me/5548991641611" target="_blank" class="btn btn-success btn-lg btn-block btn-icon-split">
+          <i class="fab fa-whatsapp fa-2x mr-2"></i> Suporte WhatsApp
+        </a>
+      </div>
+
+    </aside>
+  </div>

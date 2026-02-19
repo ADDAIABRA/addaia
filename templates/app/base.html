@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+{% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Diagnóstico Estratégico de Dados, Automação e IA para pequenas empresas. Recupere clareza e eficiência em minutos sem equipe de TI.">
+  <meta name="keywords" content="">  <!-- TODO -->
+  <meta name="author" content="Diagnóstico Digital">
+
+  <!-- OG Meta Tags -->
+  <meta property="og:site_name" content="Diagnóstico Digital" />
+  <meta property="og:title" content="Diagnóstico Estratégico de Dados e IA"/>
+  <meta property="og:description" content="Descubra onde investir em tecnologia antes de gastar milhares de reais." />
+
+  <title>Nexara - {{ titulo_pagina }}</title>
+
+  <!-- Favicon  -->
+  <link rel="icon" type="image/x-icon" href="{% static 'geral/marca/favicon.ico' %}">
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{% static 'app/modules/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'app/modules/fontawesome/css/all.min.css' %}">
+
+  <!-- CSS Libraries -->
+  {% block css_lib %}{% endblock %}
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'app/css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'app/css/custom.css' %}">
+
+  <!-- Page CSS -->
+  {% block css_page %}{% endblock %}
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XHP3E6T518"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XHP3E6T518');
+</script>
+
+</head>
+
+<body>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+
+      <!-- Navbar -->
+      {% include 'app/componentes/navbar.html' %}
+
+      <!-- Sidebar -->
+      {% include 'app/componentes/sidebar.html' %}
+
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+
+          <!-- Header -->
+          {% include 'app/componentes/header.html' %}
+
+          <div class="section-body">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible show fade">
+                  <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                      <span>&times;</span>
+                    </button>
+                    {{ message }}
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <!-- Instructions -->
+            <!-- {% include 'app/componentes/instructions.html' %} -->
+
+            <!-- Page Content -->
+            {% block content %}
+            {% endblock %}
+
+          </div>
+        </section>
+      </div>
+
+      <!-- Footer -->
+      {% include 'app/componentes/footer.html' %}
+
+    </div>
+  </div>
+
+  <!-- General JS Scripts -->
+  <script src="{% static 'app/modules/jquery.min.js' %}"></script>
+  <script src="{% static 'app/modules/popper.js' %}"></script>
+  <script src="{% static 'app/modules/tooltip.js' %}"></script>
+  <script src="{% static 'app/modules/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'app/modules/nicescroll/jquery.nicescroll.min.js' %}"></script>
+  <script src="{% static 'app/modules/moment.min.js' %}"></script>
+  <script src="{% static 'app/js/stisla.js' %}"></script>
+
+  <!-- JS Libraries -->
+  {% block js_lib %}{% endblock %}
+
+  <!-- Page Specific JS File -->
+  {% block js_page %}{% endblock %}
+
+  <!-- Template JS File -->
+  <script src="{% static 'app/js/scripts.js' %}"></script>
+  <script src="{% static 'app/js/custom.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% extends 'site/base.html' %}
+{% load static %}
+{% block title %}Pagamento Confirmado{% endblock %}
+{% block css_page %}
+    <style>
+        a.btn {
+    text-decoration: none;
+}
+a.btn:hover {
+    text-decoration: none;
+}
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container" style="padding-top: 120px; padding-bottom: 50px;">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card shadow text-center">
+                    <div class="card-body py-5">
+                        <div class="mb-4">
+                            <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+                        </div>
+
+                        <h2 class="mb-3">Pagamento Recebido!</h2>
+
+                        <p class="lead text-muted mb-4">
+                            Seu pagamento foi recebido com sucesso!
+                        </p>
+
+                        <a href="{% url 'apresentacao' %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-arrow-right"></i> Ir para a Plataforma
+                        </a>
+
+                        <div class="mt-4">
+                            <p class="small text-muted">
+                                Se houver algum problema, entre em contato com nosso suporte em <strong>contato@nexaradados.com.br</strong> ou pelo whatsapp 48 99992-2942.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_page %}
+<!-- Google tag (gtag.js) event -->
+<script>
+  gtag('event', 'conversion_event_purchase', {
+    // <event_parameters>
+  });
+</script>
+{% endblock %}

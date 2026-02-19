@@ -1,0 +1,54 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Área Bronze{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'plataforma_inicio' %}">Plataforma</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Bronze</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="jumbotron bg-light border border-warning" style="border-width: 0 0 0 5px !important;">
+        <h1 class="display-4 text-warning text-dark"><i class="fas fa-medal"></i> Área Bronze</h1>
+        <p class="lead">Bem-vindo ao conteúdo exclusivo para assinantes Bronze, Prata e Ouro.</p>
+        <hr class="my-4">
+        <p>Aqui você encontra tutoriais básicos e documentação essencial.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">🎥 Videoaula Introdutória</h5>
+                    <p class="card-text">Aprenda os conceitos fundamentais da nossa metodologia.</p>
+                    <div class="embed-responsive embed-responsive-16by9 bg-dark">
+                        <!-- Placeholder de vídeo -->
+                        <div class="d-flex justify-content-center align-items-center h-100 text-white">
+                            <i class="fas fa-play-circle fa-3x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">📚 Material de Leitura</h5>
+                    <p class="card-text">Baixe os PDFs com o resumo do módulo inicial.</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><i class="fas fa-file-pdf text-danger mr-2"></i> Guia Incial.pdf</li>
+                        <li class="list-group-item"><i class="fas fa-file-pdf text-danger mr-2"></i> Checklist Bronze.pdf</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

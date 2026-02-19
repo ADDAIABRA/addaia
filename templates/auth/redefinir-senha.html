@@ -1,0 +1,126 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block css_lib %}
+  <link rel="stylesheet" href="{% static 'app/modules/jquery-pwstrength/jquery.pwstrength.min.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+    <div class="login-brand">
+      <img src="{% static 'app/img/stisla-fill.svg' %}" alt="logo" width="100" class="shadow-light rounded-circle">
+    </div>
+
+    <div class="card card-primary">
+      <div class="card-header"><h4>Redefinir Senha</h4></div>
+
+      <div class="card-body">
+        {% if validlink %}
+          <p class="text-muted">Digite sua nova senha abaixo.</p>
+          
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible show fade">
+                <div class="alert-body">
+                  <button class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                  </button>
+                  {{ message }}
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="POST" action=".">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+              </div>
+            {% endif %}
+
+            <div class="form-group">
+              <label for="{{ form.new_password1.id_for_label }}">{{ form.new_password1.label }}</label>
+              {{ form.new_password1 }}
+              {% if form.new_password1.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.new_password1.errors }}
+                </div>
+              {% endif %}
+              {% if form.new_password1.help_text %}
+                <small class="form-text text-muted">{{ form.new_password1.help_text }}</small>
+              {% endif %}
+              <div id="pwindicator" class="pwindicator">
+                <div class="bar"></div>
+                <div class="label"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="{{ form.new_password2.id_for_label }}">{{ form.new_password2.label }}</label>
+              {{ form.new_password2 }}
+              {% if form.new_password2.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.new_password2.errors }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                Redefinir Senha
+              </button>
+            </div>
+          </form>
+        {% else %}
+          <div class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <strong>Link inválido ou expirado!</strong>
+          </div>
+          
+          <p class="text-muted">
+            O link de redefinição de senha é inválido ou já foi usado. 
+            Por favor, solicite um novo link de redefinição de senha.
+          </p>
+
+          <div class="form-group mt-4">
+            <a href="{% url 'auth:esqueceu_senha' %}" class="btn btn-primary btn-lg btn-block">
+              Solicitar Novo Link
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="mt-5 text-muted text-center">
+      <a href="{% url 'auth:logar_usuario' %}">Voltar para Login</a>
+    </div>
+    <div class="simple-footer">
+      Copyright &copy; ADDAIABRA {% now "Y" %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block js_lib %}
+  <script src="{% static 'app/modules/jquery-pwstrength/jquery.pwstrength.min.js' %}"></script>
+{% endblock %}
+
+{% block js_page %}
+  <script>
+    $(document).ready(function() {
+      // Inicializar indicador de força da senha se disponível
+      if (typeof $.fn.pwstrength !== 'undefined') {
+        $('#{{ form.new_password1.id_for_label }}').pwstrength({
+          ui: {
+            container: '#pwindicator',
+            viewports: {
+              progress: '#pwindicator .bar'
+            },
+            showVerdictsInsideProgressBar: true
+          }
+        });
+      }
+    });
+  </script>
+{% endblock %}

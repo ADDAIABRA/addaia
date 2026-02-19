@@ -1,0 +1,79 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Minha Plataforma{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-4">Bem-vindo, {{ user.username }}!</h1>
+            <p class="lead text-muted">Esta é sua área de membros.</p>
+        </div>
+    </div>
+
+    <!-- Status do Usuário -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card shadow-sm border-primary">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Seu Plano Atual</h5>
+                    {% if acesso %}
+                        <div class="d-flex align-items-center">
+                            <span class="badge badge-pill badge-success p-3 mr-3" style="font-size: 1.2rem;">
+                                {{ acesso.get_nivel_display }}
+                            </span>
+                            <div>
+                                <p class="mb-0"><strong>Status:</strong> {{ acesso.get_status_display }}</p>
+                                <small class="text-muted">Membro desde: {{ acesso.concedido_em|date:"d/m/Y" }}</small>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning mb-0">
+                            Você ainda não possui um plano ativo. 
+                            <a href="{% url 'planos' %}" class="font-weight-bold">Escolha um plano</a> para liberar o conteúdo.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdos Disponíveis -->
+    <div class="row">
+        <div class="col-12 mb-3">
+            <h3>Seu Conteúdo Disponível</h3>
+        </div>
+
+
+        <!-- Acesso Principal -->
+        <div class="col-md-12 mb-4">
+            <div class="card h-100 {% if not acesso %}opacity-50{% endif %}">
+                <div class="card-header bg-warning text-dark font-weight-bold" style="background: linear-gradient(45deg, #FFD700, #FDB931);">
+                    Acesso Completo (Plano Ouro)
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Acesso VIP completo a todo o ecossistema de diagnósticos e relatórios estratégicos.</p>
+                    {% if acesso %}
+                        <a href="{% url 'plataforma_ouro' %}" class="btn btn-warning btn-block text-dark font-weight-bold shadow">Acessar Plataforma Agora</a>
+                    {% else %}
+                        <p class="text-muted"><i class="fas fa-lock"></i> Conteúdo exclusivo para assinantes.</p>
+                        <a href="{% url 'planos' %}" class="btn btn-primary btn-block">Liberar Acesso Imediato</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .opacity-50 {
+        opacity: 0.6;
+        filter: grayscale(0.8);
+        transition: 0.3s;
+    }
+    .opacity-50:hover {
+        opacity: 0.8;
+        filter: grayscale(0.2);
+    }
+</style>
+{% endblock %}

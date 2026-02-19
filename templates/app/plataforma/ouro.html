@@ -1,0 +1,66 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Área Ouro{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'plataforma_inicio' %}">Plataforma</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Ouro</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Header VIP -->
+    <div class="jumbotron text-white" style="background: linear-gradient(135deg, #B8860B 0%, #FFD700 100%);">
+        <h1 class="display-4"><i class="fas fa-crown"></i> Área VIP Ouro</h1>
+        <p class="lead">O nível máximo de acesso. Bem-vindo à elite.</p>
+        <hr class="my-4 border-light">
+        <p>Você tem acesso irrestrito a todas as ferramentas, consultorias e conteúdos.</p>
+    </div>
+
+    <div class="row">
+        <!-- Mentoria -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow border-warning h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3 text-warning">
+                        <i class="fas fa-user-tie fa-4x"></i>
+                    </div>
+                    <h4 class="card-title">Mentoria Individual</h4>
+                    <p class="card-text">Agende sua sessão mensal de mentoria com nossos especialistas.</p>
+                    <a href="#" class="btn btn-warning btn-lg btn-block text-white font-weight-bold">Agendar Sessão</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Masterclass -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow border-warning h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-warning"><i class="fas fa-star"></i> Masterclass Exclusiva</h5>
+                    <p>Acesso às gravações das reuniões secretas.</p>
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Estratégias de Escala 2024
+                            <span class="badge badge-warning badge-pill"><i class="fas fa-play"></i></span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Otimização de Webhooks
+                            <span class="badge badge-warning badge-pill"><i class="fas fa-play"></i></span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Segurança Avançada
+                            <span class="badge badge-warning badge-pill"><i class="fas fa-play"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

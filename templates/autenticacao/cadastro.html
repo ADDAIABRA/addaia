@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Cadastro &mdash; Nexara Dados</title>
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{% static 'app/modules/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'app/modules/fontawesome/css/all.min.css' %}">
+
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="{% static 'app/modules/jquery-selectric/selectric.css' %}">
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'app/css/components.css' %}">
+        <!-- Favicon  -->
+    <link rel="icon" type="image/x-icon" href="{% static 'geral/marca/favicon.ico' %}">
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XHP3E6T518"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XHP3E6T518');
+</script>
+</head>
+
+<body>
+  <div id="app">
+    <section class="section">
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+            <div class="login-brand">
+<img src="{% static 'geral/marca/logo.png' %}" alt="logo" width="100" class="shadow-light rounded-circle">
+              <h2 class="text-primary">Nexara Dados</h2>
+            </div>
+
+            <div class="card card-primary">
+              <div class="card-header"><h4>Criar Conta</h4></div>
+
+              <div class="card-body">
+                <form method="POST" action="{% if oferta_id %}{% url 'cadastro' %}?oferta_id={{ oferta_id }}{% else %}{% url 'cadastro' %}{% endif %}">
+                  {% csrf_token %}
+                  {% if oferta_id %}<input type="hidden" name="oferta_id" value="{{ oferta_id }}">{% endif %}
+                  
+                  {% if form.errors %}
+                      <div class="alert alert-danger">
+                          <strong>Erro no formulário:</strong>
+                          <ul class="mb-0">
+                              {% for field in form %}
+                                  {% for error in field.errors %}
+                                      <li>{{ field.label }}: {{ error }}</li>
+                                  {% endfor %}
+                              {% endfor %}
+                              {% for error in form.non_field_errors %}
+                                  <li>{{ error }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
+
+                  <div class="form-group">
+                    <label for="{{ form.nome_completo.id_for_label }}">Nome Completo</label>
+                    <input id="{{ form.nome_completo.id_for_label }}" type="text" class="form-control" name="{{ form.nome_completo.name }}" autofocus required>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-6">
+                      <label for="{{ form.email.id_for_label }}">Email</label>
+                      <input id="{{ form.email.id_for_label }}" type="email" class="form-control" name="{{ form.email.name }}" required>
+                      <div class="invalid-feedback">
+                      </div>
+                    </div>
+                    <div class="form-group col-6">
+                      <label for="{{ form.telefone.id_for_label }}">WhatsApp / Celular</label>
+                      <input id="{{ form.telefone.id_for_label }}" type="text" class="form-control" name="{{ form.telefone.name }}" required>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-6">
+                      <label for="{{ form.password1.id_for_label }}" class="d-block">Senha</label>
+                      <input id="{{ form.password1.id_for_label }}" type="password" class="form-control" name="{{ form.password1.name }}">
+                    </div>
+                    <div class="form-group col-6">
+                      <label for="{{ form.password2.id_for_label }}" class="d-block">Confirmar Senha</label>
+                      <input id="{{ form.password2.id_for_label }}" type="password" class="form-control" name="{{ form.password2.name }}">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="agree" class="custom-control-input" id="agree" required>
+                      <label class="custom-control-label" for="agree">Eu li e concordo com os <a href="{% url 'termos_condicoes' %}">termos e condições</a>.</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                      Cadastrar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="simple-footer">
+              Copyright &copy; Nexara Dados 2026
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- General JS Scripts -->
+  <script src="{% static 'app/modules/jquery.min.js' %}"></script>
+  <script src="{% static 'app/modules/popper.js' %}"></script>
+  <script src="{% static 'app/modules/tooltip.js' %}"></script>
+  <script src="{% static 'app/modules/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'app/modules/nicescroll/jquery.nicescroll.min.js' %}"></script>
+  <script src="{% static 'app/modules/moment.min.js' %}"></script>
+  <script src="{% static 'app/js/stisla.js' %}"></script>
+  
+  <!-- JS Libraries -->
+  <script src="{% static 'app/modules/jquery-selectric/jquery.selectric.min.js' %}"></script>
+
+  <!-- Page Specific JS File -->
+  <script src="{% static 'app/js/page/auth-register.js' %}"></script>
+  
+  <!-- Template JS File -->
+  <script src="{% static 'app/js/scripts.js' %}"></script>
+  <script src="{% static 'app/js/custom.js' %}"></script>
+</body>
+</html>

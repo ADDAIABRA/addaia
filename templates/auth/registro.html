@@ -1,0 +1,126 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block css_lib %}
+  <link rel="stylesheet" href="{% static 'app/modules/jquery-selectric/selectric.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+    <div class="login-brand">
+      <img src="{% static 'app/img/stisla-fill.svg' %}" alt="logo" width="100" class="shadow-light rounded-circle">
+    </div>
+
+    <div class="card card-primary">
+      <div class="card-header"><h4>Registro</h4></div>
+
+      <div class="card-body">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible show fade">
+              <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                  <span>&times;</span>
+                </button>
+                {{ message }}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'auth:registrar_usuario' %}" class="needs-validation" novalidate>
+          {% csrf_token %}
+          
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+              {{ form.nome }}
+              {% if form.nome.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.nome.errors }}
+                </div>
+              {% endif %}
+            </div>
+            <div class="form-group col-6">
+              <label for="{{ form.sobrenome.id_for_label }}">{{ form.sobrenome.label }}</label>
+              {{ form.sobrenome }}
+              {% if form.sobrenome.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.sobrenome.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
+              {{ form.telefone }}
+              {% if form.telefone.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.telefone.errors }}
+                </div>
+              {% endif %}
+              <small class="form-text text-muted">Opcional</small>
+            </div>
+            <div class="form-group col-6">
+              <label for="{{ form.email.id_for_label }}">{{ form.email.label }} <span class="text-danger">*</span></label>
+              {{ form.email }}
+              {% if form.email.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.email.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="{{ form.password.id_for_label }}">{{ form.password.label }} <span class="text-danger">*</span></label>
+              {{ form.password }}
+              {% if form.password.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.password.errors }}
+                </div>
+              {% endif %}
+              {% if form.password.help_text %}
+                <small class="form-text text-muted">{{ form.password.help_text }}</small>
+              {% endif %}
+            </div>
+            <div class="form-group col-6">
+              <label for="{{ form.password_confirm.id_for_label }}">{{ form.password_confirm.label }} <span class="text-danger">*</span></label>
+              {{ form.password_confirm }}
+              {% if form.password_confirm.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.password_confirm.errors }}
+                </div>
+              {% endif %}
+              {% if form.password_confirm.help_text %}
+                <small class="form-text text-muted">{{ form.password_confirm.help_text }}</small>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">
+              Cadastrar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="mt-5 text-muted text-center">
+      Já tem uma conta? <a href="{% url 'auth:logar_usuario' %}">Fazer login</a>
+    </div>
+    <div class="simple-footer">
+      Copyright &copy; ADDAIABRA {% now "Y" %}
+    </div>
+  </div>
+{% endblock %}

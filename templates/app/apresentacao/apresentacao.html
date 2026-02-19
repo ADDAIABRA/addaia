@@ -1,0 +1,216 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Bem-vindo ao Datarize{% endblock %}
+
+{% block css_page %}
+<style>
+    .welcome-header {
+        background: linear-gradient(135deg, #1065c6 0%, #3e41eb 100%);
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        color: white;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 10px 30px rgba(16, 101, 198, 0.2);
+    }
+    
+    .welcome-header h2 {
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .presentation-step {
+        border: none;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        margin-bottom: 2rem;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .presentation-step:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: #1065c6;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .step-icon {
+        font-size: 2.5rem;
+        color: #1065c6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .step-time {
+        display: inline-block;
+        background: rgba(16, 101, 198, 0.08);
+        color: #1065c6;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .important-note {
+        background: #f8faff;
+        border-left: 5px solid #1065c6;
+        padding: 1.5rem;
+        border-radius: 0 15px 15px 0;
+        margin-top: 3rem;
+    }
+    
+    .cta-container {
+        padding: 3rem 0;
+    }
+    
+    .btn-premium {
+        background: linear-gradient(135deg, #1065c6 0%, #3e41eb 100%);
+        color: white;
+        padding: 1rem 3rem;
+        border-radius: 30px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: none;
+        box-shadow: 0 8px 15px rgba(16, 101, 198, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .btn-premium:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 20px rgba(16, 101, 198, 0.4);
+        color: white;
+        filter: brightness(1.1);
+    }
+    
+    .info-item {
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .info-item i {
+        color: #28a745;
+        margin-right: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        
+        <!-- Welcome Section -->
+        <div class="welcome-header text-center">
+            <h2>Seja bem-vindo(a), {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</h2>
+            <p class="lead mb-0">Obrigado pela confiança. Você acaba de dar um passo importante para tomar decisões mais seguras sobre tecnologia, dados, automações e IA no seu negócio.</p>
+        </div>
+
+        <div class="text-center mb-5">
+            <h4 class="font-weight-600">Transformamos informação em clareza prática</h4>
+            <p class="text-muted">Todo o processo é rápido e guiado. Em poucos minutos, você terá um diagnóstico claro com prioridades reais para o seu momento.</p>
+        </div>
+
+        <!-- How it Works Header -->
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <h3 class="h4 section-title font-weight-700">Como funciona a partir de agora</h3>
+            </div>
+        </div>
+
+        <!-- Steps Grid -->
+        <div class="row">
+            <!-- Step 1 -->
+            <div class="col-md-4">
+                <div class="card presentation-step h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="step-number mx-auto">1</div>
+                        <div class="step-icon"><i class="fas fa-building"></i></div>
+                        <h5 class="card-title font-weight-700">Perfil do Negócio</h5>
+                        <div class="step-time"><i class="far fa-clock mr-1"></i> 3 a 5 min</div>
+                        <p class="card-text text-muted small px-2">Conte-nos sobre sua empresa: setor, porte e realidade operacional. Isso contextualiza todo o seu diagnóstico.</p>
+                        <a href="{% url 'perfil' %}" class="btn btn-primary btn-sm btn-round px-4 mt-3">Preencher Perfil</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="col-md-4">
+                <div class="card presentation-step h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="step-number mx-auto">2</div>
+                        <div class="step-icon"><i class="fas fa-clipboard-list"></i></div>
+                        <h5 class="card-title font-weight-700">Avaliação Estratégica</h5>
+                        <div class="step-time"><i class="far fa-clock mr-1"></i> 8 a 12 min</div>
+                        <p class="card-text text-muted small px-2">Questionários rápidos sobre softwares, dados, analytics e IA. Foque na realidade atual, não no ideal.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm btn-round px-4 mt-3">Iniciar Avaliação</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="col-md-4">
+                <div class="card presentation-step h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="step-number mx-auto">3</div>
+                        <div class="step-icon"><i class="fas fa-file-invoice"></i></div>
+                        <h5 class="card-title font-weight-700">Plano Estratégico</h5>
+                        <div class="step-time text-success" style="background: rgba(40, 167, 69, 0.1); color: #28a745;"><i class="fas fa-magic mr-1"></i> Imediato</div>
+                        <p class="card-text text-muted small px-2">Sua IA analisa tudo e gera um relatório com maturidade, riscos, gargalos e prioridades práticas de projetos.</p>
+                        <button class="btn btn-light btn-sm btn-round px-4 mt-3" disabled>Ver Relatório</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features/Highlights -->
+        <div class="important-note">
+            <h5 class="font-weight-700 mb-3"><i class="fas fa-info-circle mr-2 text-primary"></i> Importante saber</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="info-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Sem reuniões obrigatórias</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Foco total em clareza</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Sem venda de implementação</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-muted mt-3 mb-0 small text-center italic">"O foco é clareza para decidir com segurança. Se surgir alguma dúvida, você encontrará orientações dentro da plataforma."</p>
+        </div>
+
+        <!-- Final CTA -->
+        <div class="cta-container text-center">
+            <p class="lead text-muted mb-4">Agora é com você. Quando estiver pronto(a), comece pelo primeiro passo.</p>
+            <a href="{% url 'perfil' %}" class="btn btn-premium">
+                Começar agora <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

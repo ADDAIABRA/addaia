@@ -1,0 +1,755 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block css_page %}
+<style>
+    .section-title {
+        margin-top: 40px;
+        margin-bottom: 20px;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #6777ef;
+        border-bottom: 2px solid #f1f1f1;
+        padding-bottom: 10px;
+    }
+    .form-group {
+        margin-bottom: 25px;
+    }
+    .radio-container {
+        padding: 15px;
+        background: #fdfdff;
+        border: 1px solid #e4e6fc;
+        border-radius: 8px;
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+    .radio-container:hover {
+        border-color: #6777ef;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+    }
+    .radio-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    @media (min-width: 992px) {
+        .radio-grid-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    .custom-control-group {
+        max-height: 250px;
+        overflow-y: auto;
+        padding: 15px;
+        border: 1px solid #e4e6fc;
+        border-radius: 8px;
+        background: #fdfdff;
+    }
+    .form-check {
+        padding-left: 2rem;
+        margin-bottom: 8px;
+    }
+    .form-check-input {
+        margin-top: 0.3rem;
+    }
+    .form-check-label {
+        font-size: 14px;
+        color: #495057;
+        cursor: pointer;
+    }
+    .sticky-progress {
+        position: sticky;
+        top: 80px; /* Offset for main navbar */
+        z-index: 1000;
+        margin-bottom: 30px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h4>Dados da Empresa</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" autocomplete="off">
+                    {% csrf_token %}
+                    
+                    <div class="sticky-progress card shadow-sm">
+                        <div class="card-body py-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="font-weight-bold text-primary">Progresso do Preenchimento</span>
+                                <span class="badge badge-primary" id="progress-percent">0%</span>
+                            </div>
+                            <div class="progress" style="height: 12px; border-radius: 10px;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" id="profile-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <small class="text-muted mt-2 d-block">Preencha o máximo de informações para um diagnóstico preciso.</small>
+                        </div>
+                    </div>
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <h2 class="section-title">Identificação</h2>
+                    <p class="section-lead">Informações básicas sobre o seu negócio e seu contato.</p>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.nome_empresa.id_for_label }}">{{ form.nome_empresa.label }}</label>
+                            {{ form.nome_empresa }}
+                            {% if form.nome_empresa.errors %}
+                                <div class="invalid-feedback d-block">{{ form.nome_empresa.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.cargo.id_for_label }}">{{ form.cargo.label }}</label>
+                            {{ form.cargo }}
+                            {% if form.cargo.errors %}
+                                <div class="invalid-feedback d-block">{{ form.cargo.errors }}</div>
+                            {% endif %}
+                            <div class="mt-2" id="div_cargo_outro" style="{% if form.cargo.value != 'OUTRO' %}display: none;{% endif %}">
+                                {{ form.cargo_outro }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.setor_atuacao.id_for_label }}">{{ form.setor_atuacao.label }} <span class="text-danger">*</span></label>
+                            {{ form.setor_atuacao }}
+                            {% if form.setor_atuacao.errors %}
+                                <div class="invalid-feedback d-block">{{ form.setor_atuacao.errors }}</div>
+                            {% endif %}
+                            <div class="mt-2" id="div_setor_outro" style="{% if form.setor_atuacao.value != 'OUTRO' %}display: none;{% endif %}">
+                                {{ form.setor_outro }}
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.segmento_especifico.id_for_label }}">{{ form.segmento_especifico.label }} <span class="text-danger">*</span></label>
+                            {{ form.segmento_especifico }}
+                            {% if form.segmento_especifico.errors %}
+                                <div class="invalid-feedback d-block">{{ form.segmento_especifico.errors }}</div>
+                            {% endif %}
+                            <div class="mt-2" id="div_segmento_outro" style="{% if form.segmento_especifico.value != 'OUTRO' %}display: none;{% endif %}">
+                                {{ form.segmento_outro }}
+                            </div>
+                            <small class="form-text text-muted">{{ form.segmento_especifico.help_text }}</small>
+                        </div>
+                    </div>
+
+                    <h2 class="section-title">Estrutura e Estágio</h2>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.fase_negocio.label }}</label>
+                                <div class="radio-grid radio-grid-2">
+                                    {% for value, text in form.fase_negocio.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.fase_negocio.name }}" value="{{ value }}" id="id_{{ form.fase_negocio.name }}_{{ forloop.counter }}" {% if form.fase_negocio.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.fase_negocio.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.faixa_ano_fundacao.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.faixa_ano_fundacao.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.faixa_ano_fundacao.name }}" value="{{ value }}" id="id_{{ form.faixa_ano_fundacao.name }}_{{ forloop.counter }}" {% if form.faixa_ano_fundacao.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.faixa_ano_fundacao.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.faixa_funcionarios.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.faixa_funcionarios.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.faixa_funcionarios.name }}" value="{{ value }}" id="id_{{ form.faixa_funcionarios.name }}_{{ forloop.counter }}" {% if form.faixa_funcionarios.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.faixa_funcionarios.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.decisao_estrategica.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.decisao_estrategica.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.decisao_estrategica.name }}" value="{{ value }}" id="id_{{ form.decisao_estrategica.name }}_{{ forloop.counter }}" {% if form.decisao_estrategica.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.decisao_estrategica.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.responsavel_tecnologia_processos.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.responsavel_tecnologia_processos.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.responsavel_tecnologia_processos.name }}" value="{{ value }}" id="id_{{ form.responsavel_tecnologia_processos.name }}_{{ forloop.counter }}" {% if form.responsavel_tecnologia_processos.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.responsavel_tecnologia_processos.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="section-title">Financeiro</h2>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.regime_tributario.label }}</label>
+                                <div class="radio-grid radio-grid-2">
+                                    {% for value, text in form.regime_tributario.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.regime_tributario.name }}" value="{{ value }}" id="id_{{ form.regime_tributario.name }}_{{ forloop.counter }}" {% if form.regime_tributario.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.regime_tributario.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.faturamento_anual_aproximado.id_for_label }}">{{ form.faturamento_anual_aproximado.label }}</label>
+                            {{ form.faturamento_anual_aproximado }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.orcamento_anual_ti.id_for_label }}">{{ form.orcamento_anual_ti.label }}</label>
+                            {{ form.orcamento_anual_ti }}
+                        </div>
+                    </div>
+
+                    <h2 class="section-title">Modelo de Negócio e Operação</h2>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label class="font-weight-bold text-primary d-block" for="{{ form.modelo_negocio.id_for_label }}">{{ form.modelo_negocio.label }}</label>
+                            {{ form.modelo_negocio }}
+                        </div>
+                        <div class="form-group col-md-8">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.tipo_receita_predominante.label }}</label>
+                                <div class="radio-grid radio-grid-2">
+                                    {% for value, text in form.tipo_receita_predominante.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.tipo_receita_predominante.name }}" value="{{ value }}" id="id_{{ form.tipo_receita_predominante.name }}_{{ forloop.counter }}" {% if form.tipo_receita_predominante.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.tipo_receita_predominante.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.ticket_medio_venda.label }}</label>
+                                <div class="radio-grid radio-grid-2">
+                                    {% for value, text in form.ticket_medio_venda.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.ticket_medio_venda.name }}" value="{{ value }}" id="id_{{ form.ticket_medio_venda.name }}_{{ forloop.counter }}" {% if form.ticket_medio_venda.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.ticket_medio_venda.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.principal_canal_vendas.label }}</label>
+                                <div class="radio-grid radio-grid-2">
+                                    {% for value, text in form.principal_canal_vendas.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.principal_canal_vendas.name }}" value="{{ value }}" id="id_{{ form.principal_canal_vendas.name }}_{{ forloop.counter }}" {% if form.principal_canal_vendas.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.principal_canal_vendas.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.estrutura_operacional.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.estrutura_operacional.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.estrutura_operacional.name }}" value="{{ value }}" id="id_{{ form.estrutura_operacional.name }}_{{ forloop.counter }}" {% if form.estrutura_operacional.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.estrutura_operacional.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.quantidade_unidades.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.quantidade_unidades.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.quantidade_unidades.name }}" value="{{ value }}" id="id_{{ form.quantidade_unidades.name }}_{{ forloop.counter }}" {% if form.quantidade_unidades.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.quantidade_unidades.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="section-title">Localização</h2>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="{{ form.pais.id_for_label }}">{{ form.pais.label }}</label>
+                            {{ form.pais }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="{{ form.estado.id_for_label }}">{{ form.estado.label }}</label>
+                            {{ form.estado }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="{{ form.cidade.id_for_label }}">{{ form.cidade.label }}</label>
+                            {{ form.cidade }}
+                        </div>
+                    </div>
+                    
+                    <h2 class="section-title">Tecnologia e Estratégia</h2>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.possui_equipe_ti_dados.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.possui_equipe_ti_dados.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.possui_equipe_ti_dados.name }}" value="{{ value }}" id="id_{{ form.possui_equipe_ti_dados.name }}_{{ forloop.counter }}" {% if form.possui_equipe_ti_dados.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.possui_equipe_ti_dados.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.alfabetizacao_digital_equipe.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.alfabetizacao_digital_equipe.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.alfabetizacao_digital_equipe.name }}" value="{{ value }}" id="id_{{ form.alfabetizacao_digital_equipe.name }}_{{ forloop.counter }}" {% if form.alfabetizacao_digital_equipe.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.alfabetizacao_digital_equipe.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.abrangencia_geografica.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.abrangencia_geografica.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.abrangencia_geografica.name }}" value="{{ value }}" id="id_{{ form.abrangencia_geografica.name }}_{{ forloop.counter }}" {% if form.abrangencia_geografica.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.abrangencia_geografica.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.ferramentas_gestao.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.ferramentas_gestao.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.ferramentas_gestao.name }}" value="{{ value }}" id="id_{{ form.ferramentas_gestao.name }}_{{ forloop.counter }}" {% if form.ferramentas_gestao.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.ferramentas_gestao.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.residencia_dados.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.residencia_dados.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.residencia_dados.name }}" value="{{ value }}" id="id_{{ form.residencia_dados.name }}_{{ forloop.counter }}" {% if form.residencia_dados.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.residencia_dados.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.prioridade_estrategica_ano.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.prioridade_estrategica_ano.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.prioridade_estrategica_ano.name }}" value="{{ value }}" id="id_{{ form.prioridade_estrategica_ano.name }}_{{ forloop.counter }}" {% if form.prioridade_estrategica_ano.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.prioridade_estrategica_ano.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.conformidade_lgpd.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.conformidade_lgpd.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.conformidade_lgpd.name }}" value="{{ value }}" id="id_{{ form.conformidade_lgpd.name }}_{{ forloop.counter }}" {% if form.conformidade_lgpd.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.conformidade_lgpd.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.preferencia_entrega_recomendacoes.label }}</label>
+                                <div class="radio-grid radio-grid-2">
+                                    {% for value, text in form.preferencia_entrega_recomendacoes.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.preferencia_entrega_recomendacoes.name }}" value="{{ value }}" id="id_{{ form.preferencia_entrega_recomendacoes.name }}_{{ forloop.counter }}" {% if form.preferencia_entrega_recomendacoes.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.preferencia_entrega_recomendacoes.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <div class="radio-container">
+                                <label class="d-block font-weight-bold text-primary">{{ form.sazonalidade_negocio.label }}</label>
+                                <div class="radio-grid">
+                                    {% for value, text in form.sazonalidade_negocio.field.choices %}
+                                        {% if value %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ form.sazonalidade_negocio.name }}" value="{{ value }}" id="id_{{ form.sazonalidade_negocio.name }}_{{ forloop.counter }}" {% if form.sazonalidade_negocio.value == value %}checked{% endif %}>
+                                            <label class="form-check-label" for="id_{{ form.sazonalidade_negocio.name }}_{{ forloop.counter }}">
+                                                {{ text }}
+                                            </label>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold text-primary d-block" for="{{ form.meses_pico.id_for_label }}">{{ form.meses_pico.label }}</label>
+                            {{ form.meses_pico }}
+                            <small class="form-text text-muted">{{ form.meses_pico.help_text }}</small>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-right">
+                        <button class="btn btn-primary" type="submit">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_page %}
+<script>
+$(document).ready(function() {
+    const setores_segmentos = {{ setores_segmentos_json|safe }};
+    const default_segments = {{ default_segments_json|safe }};
+
+    // Função genérica para toggle de campos "Outro"
+    function toggleOutro(selectId, divId) {
+        if ($('#' + selectId).val() === 'OUTRO') {
+            $('#' + divId).slideDown();
+        } else {
+            $('#' + divId).slideUp();
+            $('#' + divId).find('input').val('');
+        }
+    }
+
+    // Função para atualizar segmentos baseados no setor
+    function atualizarSegmentos() {
+        const setor = $('#id_setor_atuacao').val();
+        const $segmento = $('#id_segmento_especifico');
+        
+        // Se já tivermos um valor (do objeto salvo ou do post), vamos tentar mantê-lo
+        const valorSalvo = "{{ form.segmento_especifico.value|default:'' }}";
+        const valorAtual = $segmento.val() || valorSalvo;
+        
+        const segmentos = setores_segmentos[setor] || default_segments;
+        
+        $segmento.empty();
+        $segmento.append('<option value="">---------</option>');
+        
+        segmentos.forEach(function(item) {
+            $segmento.append($('<option>', {
+                value: item[0],
+                text: item[1]
+            }));
+        });
+
+        // Tenta restaurar o valor que estava selecionado ou o valor salvo no banco
+        if (valorAtual) {
+            $segmento.val(valorAtual);
+        }
+        
+        // Verifica toggle do segmento recém atualizado para campos "Outro"
+        toggleOutro('id_segmento_especifico', 'div_segmento_outro');
+    }
+
+    // Eventos para Cargo
+    $('#id_cargo').change(function() {
+        toggleOutro('id_cargo', 'div_cargo_outro');
+    });
+
+    // Eventos para Setor
+    $('#id_setor_atuacao').change(function() {
+        toggleOutro('id_setor_atuacao', 'div_setor_outro');
+        atualizarSegmentos();
+    });
+
+    // Eventos para Segmento
+    $('#id_segmento_especifico').change(function() {
+        toggleOutro('id_segmento_especifico', 'div_segmento_outro');
+    });
+
+    // --- Lógica de Estados e Cidades (IBGE API) ---
+    const $estado = $('#id_estado');
+    const $cidade = $('#id_cidade');
+    const valorEstadoInicial = "{{ form.estado.value|default:'' }}";
+    const valorCidadeInicial = "{{ form.cidade.value|default:'' }}";
+
+    function carregarEstados() {
+        return $.ajax({
+            url: 'https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome',
+            method: 'GET',
+            success: function(data) {
+                $estado.empty().append('<option value="">Selecione o Estado</option>');
+                data.forEach(function(item) {
+                    $estado.append($('<option>', {
+                        value: item.sigla,
+                        text: item.nome
+                    }));
+                });
+                if (valorEstadoInicial) {
+                    $estado.val(valorEstadoInicial).trigger('change');
+                }
+            }
+        });
+    }
+
+    function carregarCidades(uf, selecionada = null) {
+        if (!uf) {
+            $cidade.empty().append('<option value="">Selecione um Estado primeiro</option>');
+            return;
+        }
+        $cidade.empty().append('<option value="">Carregando cidades...</option>');
+        $.ajax({
+            url: `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`,
+            method: 'GET',
+            success: function(data) {
+                $cidade.empty().append('<option value="">Selecione a Cidade</option>');
+                data.forEach(function(item) {
+                    $cidade.append($('<option>', {
+                        value: item.nome,
+                        text: item.nome
+                    }));
+                });
+                if (selecionada) {
+                    $cidade.val(selecionada);
+                } else if (valorCidadeInicial && $estado.val() === valorEstadoInicial) {
+                    $cidade.val(valorCidadeInicial);
+                }
+            }
+        });
+    }
+
+    $estado.on('change', function() {
+        carregarCidades($(this).val());
+    });
+
+    // --- Lógica de Progresso ---
+    function updateProgress() {
+        const fields = [
+            'nome_empresa', 'cargo', 'setor_atuacao', 'segmento_especifico',
+            'fase_negocio', 'faixa_ano_fundacao', 'faixa_funcionarios',
+            'decisao_estrategica', 'responsavel_tecnologia_processos',
+            'regime_tributario', 'faturamento_anual_aproximado', 'orcamento_anual_ti',
+            'modelo_negocio', 'tipo_receita_predominante', 'ticket_medio_venda',
+            'principal_canal_vendas', 'estrutura_operacional', 'quantidade_unidades',
+            'pais', 'estado', 'cidade', 'possui_equipe_ti_dados',
+            'alfabetizacao_digital_equipe', 'abrangencia_geografica',
+            'ferramentas_gestao', 'residencia_dados', 'prioridade_estrategica_ano',
+            'conformidade_lgpd', 'preferencia_entrega_recomendacoes',
+            'sazonalidade_negocio'
+        ];
+        
+        let filledCount = 0;
+        const totalCount = fields.length;
+
+        fields.forEach(name => {
+            const $el = $(`[name="${name}"]`);
+            if ($el.length > 0) {
+                if ($el.is(':radio')) {
+                    if ($(`input[name="${name}"]:checked`).length > 0) filledCount++;
+                } else if ($el.is('select')) {
+                    const val = $el.val();
+                    if (val && val !== '' && val !== '---------') filledCount++;
+                } else {
+                    const val = $el.val();
+                    if (val && val.trim() !== '') filledCount++;
+                }
+            }
+        });
+
+        const percentage = Math.round((filledCount / totalCount) * 100);
+        const $bar = $('#profile-progress');
+        const $label = $('#progress-percent');
+        
+        $bar.css('width', percentage + '%');
+        $bar.attr('aria-valuenow', percentage);
+        $label.text(percentage + '%');
+        
+        // Colors
+        if (percentage < 33) {
+            $bar.removeClass('bg-warning bg-success').addClass('bg-danger');
+            $label.removeClass('badge-warning badge-success').addClass('badge-danger');
+        } else if (percentage < 66) {
+            $bar.removeClass('bg-danger bg-success').addClass('bg-warning');
+            $label.removeClass('badge-danger badge-success').addClass('badge-warning');
+        } else {
+            $bar.removeClass('bg-danger bg-warning').addClass('bg-success');
+            $label.removeClass('badge-danger badge-warning').addClass('badge-success');
+        }
+    }
+
+    // Monitorar mudanças em todos os inputs
+    $(document).on('change input', 'input, select, textarea', function() {
+        updateProgress();
+    });
+
+    // Inicialização
+    carregarEstados();
+    atualizarSegmentos();
+    toggleOutro('id_cargo', 'div_cargo_outro');
+    toggleOutro('id_setor_atuacao', 'div_setor_outro');
+    
+    // Atualiza progresso inicial após um pequeno delay para garantir que APIs (IBGE) e scripts tenham rodado
+    setTimeout(updateProgress, 1000);
+});
+</script>
+{% endblock %}

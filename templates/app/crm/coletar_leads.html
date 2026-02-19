@@ -1,0 +1,90 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Coletar Leads</h4>
+                <div class="card-header-action">
+                    <a href="{% url 'ver_leads' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-list"></i> Ver meus leads
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    Você tem <strong>{{ leads_disponiveis }}</strong> de <strong>{{ leads_limite }}</strong> leads disponíveis este mês.
+                </div>
+
+                <p class="text-muted mb-4">Defina os critérios de busca. Após clicar em "Coletar Leads", você será redirecionado para a página de visualização. Aguarde a coleta na próxima tela.</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_keyword">{{ form.keyword.label }}</label>
+                        {{ form.keyword }}
+                        {% if form.keyword.errors %}
+                            <div class="invalid-feedback d-block">{{ form.keyword.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="id_cidade">{{ form.cidade.label }}</label>
+                            {{ form.cidade }}
+                            {% if form.cidade.errors %}
+                                <div class="invalid-feedback d-block">{{ form.cidade.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="id_bairro">{{ form.bairro.label }}</label>
+                            {{ form.bairro }}
+                            {% if form.bairro.errors %}
+                                <div class="invalid-feedback d-block">{{ form.bairro.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            {{ form.usar_raio }}
+                            <label class="custom-control-label" for="id_usar_raio">{{ form.usar_raio.label }}</label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="raio-group" style="display: none;">
+                        <label for="id_raio_km">{{ form.raio_km.label }}</label>
+                        {{ form.raio_km }}
+                        {% if form.raio_km.errors %}
+                            <div class="invalid-feedback d-block">{{ form.raio_km.errors }}</div>
+                        {% endif %}
+                        <small class="form-text text-muted">Raio máximo: 50 km. O centro será calculado a partir do bairro/cidade.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Coletar Leads
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_page %}
+<script>
+$(document).ready(function() {
+    $('#id_usar_raio').on('change', function() {
+        $('#raio-group').toggle(this.checked);
+        if (this.checked) {
+            $('#id_raio_km').prop('required', true);
+        } else {
+            $('#id_raio_km').prop('required', false).val('');
+        }
+    });
+    if ($('#id_usar_raio').is(':checked')) {
+        $('#raio-group').show();
+        $('#id_raio_km').prop('required', true);
+    }
+});
+</script>
+{% endblock %}

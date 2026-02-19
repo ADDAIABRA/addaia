@@ -1,0 +1,137 @@
+<div id="pricing" class="cards-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="above-heading">PLANOS</div>
+                <h2 class="h2-heading">Escolha o plano ideal para sua prospecção</h2>
+            </div>
+        </div>
+
+        <!-- Abas Mensal / Anual -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-12">
+                <ul class="nav nav-pills justify-content-center" id="pricingTabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="mensal-tab" data-toggle="tab" href="#mensal" role="tab" aria-controls="mensal" aria-selected="true">Mensal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="anual-tab" data-toggle="tab" href="#anual" role="tab" aria-controls="anual" aria-selected="false">
+                            Anual <span class="badge badge-success ml-1">20% OFF</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content" id="pricingTabsContent">
+            <!-- Tab Mensal -->
+            <div class="tab-pane fade show active" id="mensal" role="tabpanel" aria-labelledby="mensal-tab">
+                <div class="row pricing-cards-row">
+                    {% for plano in planos %}
+                    {% if plano.mensal %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 pricing-card">
+                            <div class="card-body">
+                                <div class="card-title">{{ plano.nome|upper }}</div>
+                                <div class="price"><span class="currency">R$</span><span class="value">{{ plano.mensal.valor_reais }}</span></div>
+                                <div class="frequency">mensal</div>
+                                <p class="text-muted small mb-2"><strong>{{ plano.mensal.leads_mensais }}</strong> leads por mês</p>
+                                <div class="divider"></div>
+                                <ul class="list-unstyled li-space-lg">
+                                    <li class="media">
+                                        <i class="fas fa-check"></i>
+                                        <div class="media-body">Leads com dados completos</div>
+                                    </li>
+                                    <li class="media">
+                                        <i class="fas fa-check"></i>
+                                        <div class="media-body">Exporte e prospecte no mesmo dia</div>
+                                    </li>
+                                    <li class="media">
+                                        <i class="fas fa-check"></i>
+                                        <div class="media-body">Suporte por WhatsApp</div>
+                                    </li>
+                                </ul>
+                                <div class="button-wrapper">
+                                    <a class="btn-solid-reg" href="{% url 'cadastro' %}?oferta_id={{ plano.mensal.id }}">ASSINAR</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% empty %}
+                    <div class="col-lg-12 text-center">
+                        <p><a class="btn-outline-reg" href="{% url 'planos' %}">Ver planos disponíveis</a></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Tab Anual -->
+            <div class="tab-pane fade" id="anual" role="tabpanel" aria-labelledby="anual-tab">
+                <div class="row pricing-cards-row">
+                    {% for plano in planos %}
+                    {% if plano.anual %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 pricing-card position-relative">
+                            <span class="badge badge-success position-absolute" style="top: 15px; right: 15px; font-size: 0.75rem;">
+                                20% OFF
+                            </span>
+                            <div class="card-body">
+                                <div class="card-title">{{ plano.nome|upper }}</div>
+                                <div class="price"><span class="currency">R$</span><span class="value">{{ plano.anual.valor_reais }}</span></div>
+                                <div class="frequency">anual</div>
+                                <p class="text-muted small mb-2"><strong>{{ plano.anual.leads_mensais }}</strong> leads por mês</p>
+                                <div class="divider"></div>
+                                <ul class="list-unstyled li-space-lg">
+                                    <li class="media">
+                                        <i class="fas fa-check"></i>
+                                        <div class="media-body">Leads com dados completos</div>
+                                    </li>
+                                    <li class="media">
+                                        <i class="fas fa-check"></i>
+                                        <div class="media-body">Exporte e prospecte no mesmo dia</div>
+                                    </li>
+                                    <li class="media">
+                                        <i class="fas fa-check"></i>
+                                        <div class="media-body">Suporte por WhatsApp</div>
+                                    </li>
+                                    <li class="media">
+                                        <i class="fas fa-check"></i>
+                                        <div class="media-body">Economize 20% no plano anual</div>
+                                    </li>
+                                </ul>
+                                <div class="button-wrapper">
+                                    <a class="btn-solid-reg" href="{% url 'cadastro' %}?oferta_id={{ plano.anual.id }}">ASSINAR</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <p class="mb-2"><a class="btn-outline-reg" href="{% url 'planos' %}">Ver todos os planos</a></p>
+                <div class="pricing-payment-section">
+                    <div class="payment-provider">
+                        <span class="payment-provider-label">Pagamentos processados por</span>
+                        <img class="mercadopago-logo" src="https://http2.mlstatic.com/frontend-assets/ui-navigation/6.7.1/mercadopago/logo-pt__large.png" alt="Mercado Pago" title="Pagamentos processados pelo Mercado Pago">
+                    </div>
+                    <div class="payment-methods">
+                        <span class="payment-method" title="Cartão de Crédito"><i class="fas fa-credit-card"></i><span>Crédito</span></span>
+                        <span class="payment-method" title="Cartão de Débito"><i class="fas fa-id-card"></i><span>Débito</span></span>
+                        <span class="payment-method" title="PIX"><i class="fas fa-qrcode"></i><span>PIX</span></span>
+                        <span class="payment-method" title="Boleto"><i class="fas fa-barcode"></i><span>Boleto</span></span>
+                    </div>
+                    <div class="payment-trust-badges">
+                        <span class="trust-badge"><i class="fas fa-shield-alt"></i> Pagamento 100% seguro</span>
+                        <span class="trust-badge"><i class="fas fa-lock"></i> Dados protegidos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,684 @@
+/* ===========================================
+   Seção de Pricing - Estilos Avançados
+   =========================================== */
+
+/* Container principal da seção pricing */
+.cards-2 {
+  position: relative;
+  overflow: visible;
+}
+
+/* Espaçamento e layout do tab content */
+.cards-2 .tab-content {
+  min-height: 320px;
+}
+
+.cards-2 .tab-pane .row {
+  justify-content: center;
+}
+
+/* Abas Mensal/Anual na seção pricing */
+#pricingTabs {
+  border: none;
+}
+
+#pricingTabs .nav-link {
+  color: #475569;
+  border: 2px solid rgba(69, 80, 238, 0.2);
+  border-radius: 12px;
+  margin: 0 0.25rem;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+#pricingTabs .nav-link:hover {
+  border-color: rgba(37, 99, 235, 0.5);
+  color: #2563EB;
+}
+
+#pricingTabs .nav-link.active {
+  background: linear-gradient(135deg, #2563EB, #1D4ED8);
+  border-color: #2563EB;
+  color: #fff;
+}
+
+#pricingTabs .nav-link.active .badge {
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+/* Efeito de fundo gradiente animado sutil */
+.cards-2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(62, 65, 235, 0.03),
+    transparent
+  );
+  animation: pricingShimmer 12s infinite;
+  z-index: 0;
+}
+
+@keyframes pricingShimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Melhorias nos cards de pricing - override do styles.css para grid responsivo */
+.cards-2 .pricing-card,
+.cards-2 .card {
+  position: relative;
+  z-index: 1;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  margin-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+  border: 2px solid rgba(37, 99, 235, 0.15);
+  transform: translateY(0);
+}
+
+.cards-2 .pricing-card .card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 2rem 1.75rem;
+}
+
+.cards-2 .pricing-card .list-unstyled {
+  flex-grow: 1;
+}
+
+.cards-2 .pricing-card .button-wrapper {
+  margin-top: auto;
+}
+
+/* Efeito hover nos cards de pricing */
+.cards-2 .pricing-card:hover,
+.cards-2 .card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(37, 99, 235, 0.2);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+/* Animação de entrada - usa o col como referência */
+.cards-2 .pricing-cards-row > div:nth-child(1) .pricing-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: pricingCardSlideIn 0.6s ease 0.1s forwards;
+}
+
+.cards-2 .pricing-cards-row > div:nth-child(2) .pricing-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: pricingCardSlideIn 0.6s ease 0.2s forwards;
+}
+
+.cards-2 .pricing-cards-row > div:nth-child(3) .pricing-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: pricingCardSlideIn 0.6s ease 0.3s forwards;
+}
+
+@keyframes pricingCardSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Badge nos cards */
+.cards-2 .pricing-card .badge {
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  z-index: 2;
+}
+
+/* Melhorias no título dos cards */
+.cards-2 .card-title {
+  position: relative;
+  color: #0F172A;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.cards-2 .card:hover .card-title {
+  color: #2563EB;
+}
+
+/* Efeito de sublinhado animado no título */
+.cards-2 .card-title::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2563EB, #1D4ED8);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: width 0.4s ease;
+}
+
+.cards-2 .card:hover .card-title::after {
+  width: 80px;
+}
+
+/* Melhorias no preço */
+.cards-2 .card .price {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.cards-2 .card .price .currency {
+  font-size: 1.2rem;
+  vertical-align: 30%;
+  color: #2563EB;
+  font-weight: 600;
+}
+
+.cards-2 .card .price .value {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.cards-2 .card:hover .price .value {
+  color: #2563EB;
+}
+
+/* Efeito de brilho no preço */
+.cards-2 .card .price::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(95, 77, 239, 0.1),
+    transparent
+  );
+  border-radius: 15px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cards-2 .card:hover .price::before {
+  opacity: 1;
+}
+
+/* Melhorias na frequência */
+.cards-2 .card .frequency {
+  color: #64748B;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+/* Melhorias na lista de recursos */
+.cards-2 .card .list-unstyled {
+  margin-bottom: 2rem;
+}
+
+.cards-2 .card .list-unstyled .media {
+  margin-bottom: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.cards-2 .card .list-unstyled .media:hover {
+  transform: translateX(5px);
+}
+
+.cards-2 .card .list-unstyled .fas {
+  color: #2563EB;
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+
+.cards-2 .card .list-unstyled .media:hover .fas {
+  transform: scale(1.2);
+}
+
+.cards-2 .card .list-unstyled .fas.fa-times {
+  color: #DC2626;
+}
+
+/* Melhorias no botão */
+.cards-2 .card .button-wrapper {
+  position: relative;
+}
+
+.cards-2 .card .btn-solid-reg,
+.cards-2 .card .btn-outline-reg {
+  position: relative;
+  overflow: hidden;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+/* Efeito de brilho no botão */
+.cards-2 .card .btn-solid-reg::after,
+.cards-2 .card .btn-outline-reg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.cards-2 .card .btn-solid-reg:hover::after,
+.cards-2 .card .btn-outline-reg:hover::after {
+  left: 100%;
+}
+
+/* Efeito de elevação no botão */
+.cards-2 .card .btn-solid-reg:hover,
+.cards-2 .card .btn-outline-reg:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Responsividade melhorada */
+@media (max-width: 991px) {
+  .cards-2 .pricing-card .price .value,
+  .cards-2 .card .price .value {
+    font-size: 2.5rem;
+  }
+
+  .cards-2 .pricing-card:hover,
+  .cards-2 .card:hover {
+    transform: translateY(-6px) scale(1.01);
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-2 .pricing-cards-row > [class*="col-"] {
+    margin-bottom: 1.5rem;
+  }
+
+  .cards-2 .pricing-card .price .value,
+  .cards-2 .card .price .value {
+    font-size: 2.2rem;
+  }
+
+  .cards-2 .card-title {
+    font-size: 1.2rem;
+  }
+
+  .cards-2 .pricing-card .card-body,
+  .cards-2 .card .card-body {
+    padding: 1.5rem 1.25rem;
+  }
+
+  #pricingTabs .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .cards-2 .pricing-card .price .value,
+  .cards-2 .card .price .value {
+    font-size: 1.9rem;
+  }
+
+  .cards-2 .pricing-card .btn-solid-reg,
+  .cards-2 .card .btn-solid-reg {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Efeito de loading skeleton para pricing (opcional) */
+.cards-2 .card.loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+/* ===========================================
+   Seção de Pagamentos - Pricing (Mercado Pago)
+   =========================================== */
+.pricing-payment-section {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #E2E8F0;
+  text-align: center;
+}
+
+.pricing-payment-section .payment-provider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 0.35rem;
+}
+
+.pricing-payment-section .payment-provider-label {
+  font-size: 0.7rem;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pricing-payment-section .mercadopago-logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  max-width: 140px;
+}
+
+.pricing-payment-section .payment-methods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.pricing-payment-section .payment-method {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.pricing-payment-section .payment-method i {
+  color: #2563EB;
+  font-size: 1rem;
+}
+
+.pricing-payment-section .payment-trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+  font-size: 0.75rem;
+  color: #64748B;
+}
+
+.pricing-payment-section .trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pricing-payment-section .trust-badge i {
+  color: #16A34A;
+  font-size: 0.85rem;
+}
+
+.pricing-payment-section .trust-badge:first-child i {
+  color: #2563EB;
+}
+
+.pricing-payment-section .trust-badge:nth-child(2) i {
+  color: #2563EB;
+}
+
+@media (max-width: 576px) {
+  .pricing-payment-section .payment-methods {
+    gap: 0.75rem 1rem;
+  }
+
+  .pricing-payment-section .payment-method {
+    font-size: 0.75rem;
+  }
+
+  .pricing-payment-section .payment-method i {
+    font-size: 0.9rem;
+  }
+
+  .pricing-payment-section .payment-trust-badges {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* ===========================================
+   Botão de WhatsApp Flutuante
+   =========================================== */
+.whatsapp-btn {
+  position: fixed;
+  z-index: 1000;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 50%;
+  background-color: #25d366;
+  color: #fff !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-decoration: none !important;
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.1) rotate(5deg);
+  background-color: #128c7e;
+  box-shadow: 0 8px 25px rgba(18, 140, 126, 0.5);
+}
+
+.whatsapp-btn i {
+  line-height: 1;
+}
+
+/* Animação sutil de pulso */
+@keyframes whatsappPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+.whatsapp-btn {
+  animation: whatsappPulse 2s infinite;
+}
+
+@media (max-width: 768px) {
+  .whatsapp-btn {
+    right: 1.25rem;
+    bottom: 1.25rem;
+    width: 3.25rem;
+    height: 3.25rem;
+    font-size: 1.75rem;
+  }
+}
+
+/* ===========================================
+   Carrossel de Imagens da Plataforma
+   =========================================== */
+
+    /* Namespace exclusivo para o carrossel da plataforma (NX = NeXara) */
+    .nx-platform-section {
+        padding-top: 4rem;
+        padding-bottom: 5rem;
+        background-color: #F1F5F9 !important; /* Forçando a cor secundária do site */
+    }
+
+    .nx-carousel-container {
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    /* Estilização do Carrossel */
+    #nxPlatformCarousel {
+        background: #fff;
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+        border: 1px solid #e1e8ed;
+    }
+
+    #nxPlatformCarousel .carousel-item {
+        background: #fff;
+    }
+
+    #nxPlatformCarousel .carousel-item img {
+        width: 100%;
+        height: auto;
+        max-height: 550px;
+        object-fit: contain;
+        padding: 1.5rem;
+        cursor: zoom-in;
+        transition: transform 0.3s ease;
+    }
+
+    #nxPlatformCarousel .carousel-item img:hover {
+        transform: scale(1.01);
+    }
+
+    /* Indicadores customizados */
+    #nxPlatformCarousel .carousel-indicators {
+        bottom: -3.5rem;
+        margin: 0;
+    }
+
+    #nxPlatformCarousel .carousel-indicators li {
+        width: 0.625rem;
+        height: 0.625rem;
+        border-radius: 50%;
+        background-color: #cbd5e1;
+        border: none;
+        margin: 0 0.3125rem;
+        transition: all 0.3s ease;
+    }
+
+    #nxPlatformCarousel .carousel-indicators li.active {
+        background-color: #2563EB;
+        transform: scale(1.2);
+    }
+
+    /* Controles (Setas) */
+    #nxPlatformCarousel .carousel-control-prev,
+    #nxPlatformCarousel .carousel-control-next {
+        width: 3.5rem;
+        height: 3.5rem;
+        background: rgba(16, 101, 198, 0.9) !important;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: all 0.3s ease;
+        border: none;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #nxPlatformCarousel:hover .carousel-control-prev,
+    #nxPlatformCarousel:hover .carousel-control-next {
+        opacity: 1;
+    }
+
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    /* Sempre visível em mobile */
+    @media (max-width: 991px) {
+        #nxPlatformCarousel .carousel-control-prev,
+        #nxPlatformCarousel .carousel-control-next {
+            opacity: 1;
+            width: 2.8rem;
+            height: 2.8rem;
+        }
+    }
+
+    /* Contador */
+    .nx-slide-counter {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #64748b;
+        z-index: 10;
+    }
+
+    /* Modal de Zoom */
+    .modal-nx-zoom .modal-content {
+        background: transparent;
+        border: none;
+    }
+
+    .modal-nx-zoom .modal-body {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    #nxModalImage {
+        max-width: 100%;
+        max-height: 85vh;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 3rem rgba(0,0,0,0.5);
+    }
+
+    .nx-close-modal {
+        position: absolute;
+        top: -3rem;
+        right: 0;
+        color: #fff;
+        font-size: 2.5rem;
+        cursor: pointer;
+        line-height: 1;
+        z-index: 1100;
+    }

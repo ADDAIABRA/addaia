@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Plataforma de Pagamentos{% endblock %}</title>
+    
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        main {
+            flex: 1;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        footer {
+            background-color: #f8f9fa;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        .card-plan {
+            transition: transform 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .card-plan:hover {
+            transform: translateY(-10px);
+            border-color: #007bff;
+        }
+        
+        .badge-nivel {
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'pagina_inicial' %}">
+                <i class="fas fa-dollar-sign"></i> PaymentApp
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'planos' %}">Planos</a>
+                    </li>
+                    
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'plataforma_inicio' %}">Plataforma</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown">
+                                <i class="fas fa-user"></i> {{ user.username }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                {% if user.acesso %}
+                                    <span class="dropdown-item-text">
+                                        <strong>Plano:</strong> {{ user.acesso.get_nivel_display }}
+                                    </span>
+                                    <div class="dropdown-divider"></div>
+                                {% endif %}
+                                {% if user.is_staff %}
+                                    <a class="dropdown-item" href="/admin/">
+                                        <i class="fas fa-cog"></i> Admin
+                                    </a>
+                                {% endif %}
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    <i class="fas fa-sign-out-alt"></i> Sair
+                                </a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Entrar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light ml-2" href="{% url 'cadastro' %}">Cadastrar</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Messages -->
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <!-- Main Content -->
+    <main class="py-4">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 PaymentApp - Todos os direitos reservados</p>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap 4 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

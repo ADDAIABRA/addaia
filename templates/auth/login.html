@@ -1,0 +1,90 @@
+{% extends 'auth/base.html' %}
+
+{% load static %}
+
+{% block css_lib %}
+  <link rel="stylesheet" href="{% static 'app/modules/bootstrap-social/bootstrap-social.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+    <div class="login-brand">
+      <img src="{% static 'app/img/stisla-fill.svg' %}" alt="logo" width="100" class="shadow-light rounded-circle">
+    </div>
+
+    <div class="card card-primary">
+      <div class="card-header"><h4>Login</h4></div>
+
+      <div class="card-body">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible show fade">
+              <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                  <span>&times;</span>
+                </button>
+                {{ message }}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'auth:logar_usuario' %}" class="needs-validation" novalidate>
+          {% csrf_token %}
+          
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">E-mail</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+              <div class="invalid-feedback d-block">
+                {{ form.username.errors }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <div class="d-block">
+              <label for="{{ form.password.id_for_label }}" class="control-label">Senha</label>
+              <div class="float-right">
+                <a href="{% url 'auth:esqueceu_senha' %}" class="text-small">
+                  Esqueceu a senha?
+                </a>
+              </div>
+            </div>
+            {{ form.password }}
+            {% if form.password.errors %}
+              <div class="invalid-feedback d-block">
+                {{ form.password.errors }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              {{ form.remember_me }}
+              <label class="custom-control-label" for="{{ form.remember_me.id_for_label }}">Lembrar-me</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+              Entrar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="mt-5 text-muted text-center">
+      Não tem uma conta? <a href="{% url 'auth:registrar_usuario' %}">Criar uma conta</a>
+    </div>
+    <div class="simple-footer">
+      Copyright &copy; ADDAIABRA {% now "Y" %}
+    </div>
+  </div>
+{% endblock %}

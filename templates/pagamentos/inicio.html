@@ -1,0 +1,96 @@
+{% extends 'site/base.html' %}
+{% load static %}
+
+{% block title %}Escolha seu Plano{% endblock %}
+
+{% block content %}
+
+<div id="pricing" class="cards-2" style="padding-top: 120px; padding-bottom: 80px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="above-heading text-center">PLANOS</div>
+                <h2 class="h2-heading text-center mb-5">Escolha o plano ideal para sua captura de leads</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            {% for plano in planos %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 position-relative">
+                    <div class="card-body text-center">
+                        <div class="card-title">{{ plano.nome|upper }}</div>
+                        <div class="divider"></div>
+                        
+                        {% if plano.mensal and plano.anual %}
+                        <div class="mb-3">
+                            <div class="btn-group btn-group-sm w-100 mb-2" role="group">
+                                <a href="{% if user.is_authenticated %}{% url 'confirmar_plano' plano.mensal.id %}{% else %}{% url 'cadastro' %}?oferta_id={{ plano.mensal.id }}{% endif %}" 
+                                   class="btn btn-outline-primary">
+                                    Mensal - R$ {{ plano.mensal.valor_reais }}
+                                </a>
+                                <a href="{% if user.is_authenticated %}{% url 'confirmar_plano' plano.anual.id %}{% else %}{% url 'cadastro' %}?oferta_id={{ plano.anual.id }}{% endif %}" 
+                                   class="btn btn-outline-primary">
+                                    Anual - R$ {{ plano.anual.valor_reais }}
+                                </a>
+                            </div>
+                            <small class="text-muted">20% off no plano anual</small>
+                        </div>
+                        <p class="mb-2"><strong>{{ plano.mensal.leads_mensais }}</strong> leads por mês</p>
+                        {% elif plano.mensal %}
+                        <div class="mb-2">
+                            <div class="price">
+                                <span class="currency">R$</span>
+                                <span class="value">{{ plano.mensal.valor_reais }}</span>
+                                <small>/mês</small>
+                            </div>
+                        </div>
+                        <p class="mb-2"><strong>{{ plano.mensal.leads_mensais }}</strong> leads por mês</p>
+                        <a href="{% if user.is_authenticated %}{% url 'confirmar_plano' plano.mensal.id %}{% else %}{% url 'cadastro' %}?oferta_id={{ plano.mensal.id }}{% endif %}" 
+                           class="btn btn-primary btn-block">Assinar</a>
+                        {% elif plano.anual %}
+                        <div class="mb-2">
+                            <div class="price">
+                                <span class="currency">R$</span>
+                                <span class="value">{{ plano.anual.valor_reais }}</span>
+                                <small>/ano</small>
+                            </div>
+                        </div>
+                        <p class="mb-2"><strong>{{ plano.anual.leads_mensais }}</strong> leads por mês</p>
+                        <a href="{% if user.is_authenticated %}{% url 'confirmar_plano' plano.anual.id %}{% else %}{% url 'cadastro' %}?oferta_id={{ plano.anual.id }}{% endif %}" 
+                           class="btn btn-primary btn-block">Assinar</a>
+                        {% endif %}
+                        
+                        <ul class="list-unstyled li-space-lg text-left mt-3">
+                            <li class="media">
+                                <i class="fas fa-check"></i>
+                                <div class="media-body">Leads qualificados mensalmente</div>
+                            </li>
+                            <li class="media">
+                                <i class="fas fa-check"></i>
+                                <div class="media-body">Suporte humano por WhatsApp</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-warning text-center">
+                    Nenhum plano disponível no momento.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <p class="text-muted small">
+                    <i class="fas fa-lock"></i> Pagamento 100% seguro via Mercado Pago • Assinatura recorrente • Cancele quando quiser
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

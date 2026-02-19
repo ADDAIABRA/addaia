@@ -1,0 +1,42 @@
+{% extends 'site/base.html' %}
+{% load static %}
+{% block title %}Pagamento Cancelado{% endblock %}
+
+{% block content %}
+
+<div class="container" style="padding-top: 120px; padding-bottom: 50px;">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow text-center">
+                <div class="card-body py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-times-circle text-warning" style="font-size: 5rem;"></i>
+                    </div>
+
+                    <h2 class="mb-3">Pagamento Cancelado</h2>
+
+                    <p class="lead text-muted mb-4">
+                        Você cancelou o processo de pagamento.
+                        Nenhuma cobrança foi realizada.
+                    </p>
+
+                    <div class="alert alert-info text-left">
+                        <i class="fas fa-info-circle"></i>
+                        Não se preocupe! Você pode tentar novamente quando quiser.
+                        Os planos continuam disponíveis para você.
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="{% url 'planos' %}" class="btn btn-primary mr-2">
+                            <i class="fas fa-redo"></i> Tentar novamente
+                        </a>
+                        <a href="{% url 'pagina_inicial' %}" class="text-muted">
+                            Voltar à página inicial
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
